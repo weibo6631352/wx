@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>QGuiViewport</class>
+ <widget class="QDialog" name="QGuiViewport">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>585</width>
+    <height>912</height>
+   </rect>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::NoFocus</enum>
+  </property>
+  <property name="windowTitle">
+   <string>图表</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_5">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="pushButton_rendpic">
+       <property name="text">
+        <string>截图</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>高亮宝物：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_serach">
+       <property name="maximumSize">
+        <size>
+         <width>80</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>重宝90倍：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="combobox_chongbao">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>导出所有统计图</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="focusPolicy">
+      <enum>Qt::TabFocus</enum>
+     </property>
+     <property name="currentIndex">
+      <number>-1</number>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>QGuiViewport</receiver>
+   <slot>on_export()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>582</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-77</x>
+     <y>29</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEdit_serach</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>QGuiViewport</receiver>
+   <slot>on_serach_change(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>236</x>
+     <y>30</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>691</x>
+     <y>32</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>combobox_chongbao</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>QGuiViewport</receiver>
+   <slot>on_preGoods_change(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>404</x>
+     <y>27</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>637</x>
+     <y>12</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_rendpic</sender>
+   <signal>clicked()</signal>
+   <receiver>QGuiViewport</receiver>
+   <slot>on_rendpic()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>49</x>
+     <y>17</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-16</x>
+     <y>14</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>on_export()</slot>
+  <slot>on_selectdatePath()</slot>
+  <slot>on_updateCharts()</slot>
+  <slot>on_serach_change(QString)</slot>
+  <slot>on_preGoods_change(QString)</slot>
+  <slot>on_rendpic()</slot>
+ </slots>
+</ui>
