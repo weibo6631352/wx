@@ -1,6 +1,7 @@
 #include "QProgressWidget.h"
 #include <QHBoxLayout>
 #include <QPainter>
+#include <QFont>
 #include <QwxSetting.h>
 
 QProgressWidget::QProgressWidget(QLineEdit *limit_edit, QWidget *parent)
@@ -54,7 +55,9 @@ void QProgressWidget::paintEvent(QPaintEvent *event)
  
  	// 设置画笔颜色
  	painter.setPen(QPen());
- 
+	QFont ft;
+	ft.setBold(true);
+	painter.setFont(ft);
  	// 绘制区域为当前界面的整个区域（居中）
  	painter.drawText(rect(), Qt::AlignCenter, text_);
 

@@ -153,8 +153,8 @@ color: rgb(0, 0, 0);</string>
          <font>
           <family>微软雅黑</family>
           <pointsize>12</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
         <property name="focusPolicy">
@@ -457,8 +457,8 @@ color: rgb(0, 0, 0);</string>
          <font>
           <family>微软雅黑</family>
           <pointsize>12</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
         <property name="focusPolicy">
@@ -708,8 +708,8 @@ color: rgb(0, 0, 0);</string>
          <font>
           <family>微软雅黑</family>
           <pointsize>12</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
         <property name="focusPolicy">

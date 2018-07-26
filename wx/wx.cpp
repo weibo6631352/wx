@@ -75,9 +75,9 @@ wx::wx(QWidget *parent)
 	
 	ui.tableWidget_inputlog->verticalHeader()->setVisible(true);
 
-	ui.tableWidget_inputlog->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+	ui.tableWidget_inputlog->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 	ui.tableWidget_inputlog->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-	ui.tableWidget_inputlog->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+	ui.tableWidget_inputlog->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
 }
 
 wx::~wx()
