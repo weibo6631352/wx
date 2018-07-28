@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/wx">
-        <file>Resources/bg.jpg</file>
-    </qresource>
+  <qresource prefix="/wx">
+    <file>icon/huanhuan.ico</file>
+  </qresource>
 </RCC>

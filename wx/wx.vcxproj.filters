@@ -194,4 +194,7 @@
   <ItemGroup>
     <ResourceCompile Include="wx.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon\huanhuan.ico" />
+  </ItemGroup>
 </Project>

@@ -31,10 +31,14 @@
   <property name="windowTitle">
    <string>wx</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="wx.qrc">
+    <normaloff>:/wx/icon/huanhuan.ico</normaloff>:/wx/icon/huanhuan.ico</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,5,3">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -47,30 +51,6 @@
    <property name="bottomMargin">
     <number>9</number>
    </property>
-   <item>
-    <widget class="QWidget" name="widget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-     </layout>
-    </widget>
-   </item>
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="sizePolicy">
@@ -180,6 +160,22 @@ background-color: rgb(0, 0, 0);</string>
     </widget>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_dailijishu">
+     <property name="leftMargin">
+      <number>3</number>
+     </property>
+     <property name="topMargin">
+      <number>3</number>
+     </property>
+     <property name="rightMargin">
+      <number>3</number>
+     </property>
+     <property name="bottomMargin">
+      <number>3</number>
+     </property>
+    </layout>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="minimumSize">
       <size>
@@ -216,22 +212,6 @@ background-color: rgb(0, 0, 0);</string>
       </item>
      </layout>
     </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_dailijishu">
-     <property name="leftMargin">
-      <number>3</number>
-     </property>
-     <property name="topMargin">
-      <number>3</number>
-     </property>
-     <property name="rightMargin">
-      <number>3</number>
-     </property>
-     <property name="bottomMargin">
-      <number>3</number>
-     </property>
-    </layout>
    </item>
    <item>
     <widget class="QTabWidget" name="tabWidget">
