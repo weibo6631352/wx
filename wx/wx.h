@@ -4,6 +4,7 @@
 #include "ui_wx.h"
 #include <QVector>
 #include <QMap>
+#include <QCloseEvent>
 #include "QwxData.h"
 #include "QGuiViewport.h"
 
@@ -29,7 +30,7 @@ protected:
 
 	// 重载qwidget事件
 	virtual void paintEvent(QPaintEvent *event) override;
-
+	void closeEvent(QCloseEvent *event) override;
 	public slots:
 void on_addUser(); //添加user
 

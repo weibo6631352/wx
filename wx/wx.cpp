@@ -86,6 +86,21 @@ wx::~wx()
 	delete view_port_;
 }
 
+void wx::closeEvent(QCloseEvent *event)
+{
+	// QMessageBox::StandardButton button;
+	int button;
+	button = QMessageBox::question(this, QStringLiteral("退出程序"),
+		QString(QStringLiteral("确认退出程序?")),
+		QMessageBox::Yes | QMessageBox::No);
+	if (button == QMessageBox::No) {
+		event->ignore();  //忽略退出信号，程序继续运行
+	}
+	else if (button == QMessageBox::Yes) {
+		event->accept();  //接受退出信号，程序退出
+	}
+}
+
 void wx::InitStyle()
 {
 	CommonHelper::setStyle(this, QApplication::applicationDirPath() + QStringLiteral("/wxmain.qss"));
