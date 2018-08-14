@@ -170,15 +170,15 @@ bool QGoodsData::InputData(QString input)
 			return false;
 
 		//删除字符
- 		line_str.replace(QStringLiteral(" "), QStringLiteral(""));
- 		line_str.replace(QStringLiteral("\t"), QStringLiteral(""));
+ 		//line_str.replace(QStringLiteral(" "), QStringLiteral(""));
+ 		line_str.replace(QStringLiteral("\t"), QStringLiteral(" "));
 		for (auto iter = split_set.begin(); iter != split_set.end(); ++iter)
 		{
-			line_str.replace(*iter, QStringLiteral(""));
+			line_str.replace(*iter, QStringLiteral(" "));
 		}
 		for (auto iter = remove_set.begin(); iter != remove_set.end(); ++iter)
 		{
-			line_str.replace(*iter, QStringLiteral(""));
+			line_str.replace(*iter, QStringLiteral(" "));
 		}
 
 		line_str.replace(QStringLiteral("--"), QStringLiteral(""));
@@ -387,7 +387,7 @@ bool QGoodsData::InputData(QString input)
 		wxLogs->SetErrStr(QStringLiteral("不能识别!"));
 		return false;
 	}
-	if (!tip_str.isEmpty())
+	if (!tip_str.remove(' ').remove('\t').remove('\n').isEmpty())
 	{
 		wxLogs->SetErrStr(QStringLiteral("不能识别：") + tip_str);
 		return false;
@@ -466,15 +466,15 @@ void QGoodsData::RevocationData(QString src_str, QString input)
 			return;
 
 		//删除字符
- 		line_str.replace(QStringLiteral(" "), QStringLiteral(""));
- 		line_str.replace(QStringLiteral("\t"), QStringLiteral(""));
+ 		//line_str.replace(QStringLiteral(" "), QStringLiteral(""));
+ 		line_str.replace(QStringLiteral("\t"), QStringLiteral(" "));
 		for (auto iter = split_list.begin(); iter != split_list.end(); ++iter)
 		{
-			line_str.replace(*iter, QStringLiteral(""));
+			line_str.replace(*iter, QStringLiteral(" "));
 		}
 		for (auto iter = remove_set.begin(); iter != remove_set.end(); ++iter)
 		{
-			line_str.replace(*iter, QStringLiteral(""));
+			line_str.replace(*iter, QStringLiteral(" "));
 		}
 
 		line_str.replace(QStringLiteral("--"), QStringLiteral(""));
@@ -664,10 +664,10 @@ void QGoodsData::RevocationData(QString src_str, QString input)
 		wxLogs->SetErrStr(QStringLiteral("不能识别!"));
 		return;
 	}
-	if (!tip_str.isEmpty())
+	if (!tip_str.remove(' ').remove('\t').remove('\n').isEmpty())
 	{
 		wxLogs->SetErrStr(QStringLiteral("不能识别：") + tip_str);
-		return;
+		return ;
 	}
 
 
