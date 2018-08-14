@@ -419,6 +419,7 @@ void QGoodsData::RevocationData(QString src_str, QString input)
 	const QMap<QString, QSet<QString>>& alias_map = wxSetting->GetAliasMap();
 	const std::map<QString, QString, strLenComp> &replace_map = wxSetting->GetReplaceMap();
 	const std::set<QString, strLenComp > &remove_set = wxSetting->GetDeleteSet();
+	const QSet<QString> &split_set = wxSetting->GetSplitSet();
 	const std::set<QString, strLenComp> &totolDict = wxSetting->GetTotolDict();
 	const std::set<QString, strLenComp> &gegeDict = wxSetting->GetGegeDict();
 
@@ -468,7 +469,7 @@ void QGoodsData::RevocationData(QString src_str, QString input)
 		//É¾³ý×Ö·û
  		//line_str.replace(QStringLiteral(" "), QStringLiteral(""));
  		line_str.replace(QStringLiteral("\t"), QStringLiteral(" "));
-		for (auto iter = split_list.begin(); iter != split_list.end(); ++iter)
+		for (auto iter = split_set.begin(); iter != split_set.end(); ++iter)
 		{
 			line_str.replace(*iter, QStringLiteral(" "));
 		}
