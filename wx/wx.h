@@ -18,6 +18,7 @@ public:
 	wx(QWidget *parent = Q_NULLPTR);
 	~wx();
 
+	
 	void UpdateOutPutEdit();
 	void RevocationUpdateOutPutEdit(QString user);
 	void CleanInputTextEdit();
@@ -29,6 +30,7 @@ protected:
 	void InitUi();
 
 	// ÷ÿ‘ÿqwidget ¬º˛
+	void keyPressEvent(QKeyEvent *) override;
 	virtual void paintEvent(QPaintEvent *event) override;
 	void closeEvent(QCloseEvent *event) override;
 	public slots:

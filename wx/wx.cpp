@@ -86,6 +86,18 @@ wx::~wx()
 	delete view_port_;
 }
 
+void wx::keyPressEvent(QKeyEvent *event)
+{
+	switch (event->key())
+	{
+	case Qt::Key_Escape:
+		break;
+	default:
+		QDialog::keyPressEvent(event);
+	}
+}
+
+
 void wx::closeEvent(QCloseEvent *event)
 {
 	// QMessageBox::StandardButton button;

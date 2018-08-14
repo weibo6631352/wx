@@ -100,6 +100,28 @@ bool QGoodsData::InputData(QString input)
 	//分割行  
 	QStringList split_list = input.split('\n');
 	QString tip_str;
+	
+	bool hasfuhao = false;
+	for (auto it = split_list.begin(); it!=split_list.end(); )
+	{
+		QString s = *it;
+		if (s.remove(' ').isEmpty())
+			split_list.erase(it);
+		else
+			++it;
+	}
+	if (split_list.size() > 1)
+	{
+		for (int i = 0; i < split_list.size(); ++i)
+		{
+			if (split_list[i].indexOf('-') > -1 || split_list[i].indexOf(QStringLiteral("退")) > -1)
+			{
+				wxLogs->SetErrStr(QStringLiteral("录入多条数据时不能既有加又有退!：") + split_list[i]);
+				return false;
+			}
+		}
+	}
+
 
 	//遍历每一行
 	int totol = 0;
