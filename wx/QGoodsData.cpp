@@ -100,28 +100,6 @@ bool QGoodsData::InputData(QString input)
 	//分割行  
 	QStringList split_list = input.split('\n');
 	QString tip_str;
-	
-	bool hasfuhao = false;
-	for (auto it = split_list.begin(); it!=split_list.end(); )
-	{
-		QString s = *it;
-		if (s.remove(' ').isEmpty())
-			split_list.erase(it);
-		else
-			++it;
-	}
-	if (split_list.size() > 1)
-	{
-		for (int i = 0; i < split_list.size(); ++i)
-		{
-			if (split_list[i].indexOf('-') > -1 || split_list[i].indexOf(QStringLiteral("退")) > -1)
-			{
-				wxLogs->SetErrStr(QStringLiteral("录入多条数据时不能既有加又有退!：") + split_list[i]);
-				return false;
-			}
-		}
-	}
-
 
 	//遍历每一行
 	int totol = 0;
@@ -259,7 +237,7 @@ bool QGoodsData::InputData(QString input)
 				wxLogs->SetErrStr(QStringLiteral("没有可识别的宝,或者有重复的宝：") + line_str);
 				return false;
 			}
-			if (!left.isEmpty())
+			if (!left.remove(' ').remove('\t').remove('\n').isEmpty())
 			{
 				wxLogs->SetErrStr(QStringLiteral("不能识别或者是有重复的宝：") + left);
 				return false;
@@ -302,14 +280,16 @@ bool QGoodsData::InputData(QString input)
 		bool firstWhile = true;
 
 		// 处理此行
- 		QRegExp element_re(QStringLiteral("-?[\u4e00-\u9fa5]+-?\\+?\\d+"));
+ 		//QRegExp element_re(QStringLiteral("-?[\u4e00-\u9fa5]+-?\\+?\\d+"));
+		QRegExp element_re(QStringLiteral("-?[\u4e00-\u9fa5]+\\s*-?\\+?\\s*\\d+"));
+
 		int pos = element_re.indexIn(line_str);
 		while ((pos = element_re.indexIn(line_str, pos)) != -1)
 		{
 			QString goods_num = line_str.mid(pos, element_re.matchedLength());
 			QString goods = ExtracChinese(goods_num);
 			QString num_str = goods_num;
-			num_str.replace(goods, QStringLiteral(""));
+			num_str.remove(goods).remove(' ');
 			int num = num_str.toInt();
 			if (num == 0)
 			{
@@ -558,7 +538,7 @@ void QGoodsData::RevocationData(QString src_str, QString input)
 				wxLogs->SetErrStr(QStringLiteral("没有可识别的宝：") + line_str);
 				return;
 			}
-			if (!left.isEmpty())
+			if (!left.remove(' ').remove('\t').remove('\n').isEmpty())
 			{
 				wxLogs->SetErrStr(QStringLiteral("不能识别或者有重复的宝：") + left);
 				return;
