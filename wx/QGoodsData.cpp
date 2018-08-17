@@ -191,6 +191,8 @@ bool QGoodsData::InputData(QString input)
 				}
 				left = list[0];
 				right = list[1];
+				right = right.trimmed();
+
 			}
 
 			QSet<QString> good_set;
@@ -491,6 +493,7 @@ void QGoodsData::RevocationData(QString src_str, QString input)
 				}
 				left = list[0];
 				right = list[1];
+				right = right.trimmed();
 			}
 
 			QSet<QString> good_set;
