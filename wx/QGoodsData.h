@@ -10,7 +10,7 @@ class QGoodsData : public QObject
 
 public:
 	QGoodsData(QString user, QString date, QString session, QObject *parent = nullptr);
-	bool InputData(QString input);
+	bool InputData(QString input, QString &err_label);
 	void RevocationData(QString src_str, QString input);
 	QString ExtractNum(QString &str);
 	QString ExtracChinese(QString &str);

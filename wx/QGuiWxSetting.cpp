@@ -35,7 +35,7 @@ void QGuiWxSetting::LoadSetting()
 	QwxSetting *wx_setting = QwxSetting::ins();
 	const QMap<QString, QSet<QString>>& alias_map = wx_setting->GetAliasMap();
 	const std::map<QString, QString, strLenComp>& replace_map = wx_setting->GetReplaceMap();
-	const std::set<QString, strLenComp>& delete_set = wx_setting->GetDeleteSet();
+	const std::set<QString, strLenComp>& replace_space_set = wx_setting->GetReplaceSpaceSet();
 
 	//别名
 	for (auto it = alias_map.constBegin(); it != alias_map.constEnd(); ++it)
@@ -73,17 +73,17 @@ void QGuiWxSetting::LoadSetting()
 
 	//删除
 	QString delete_str;
-	for (auto it = delete_set.cbegin(); it != delete_set.cend(); ++it)
+	for (auto it = replace_space_set.cbegin(); it != replace_space_set.cend(); ++it)
 	{
 
 		delete_str += *it;
-		if (std::distance(it, delete_set.cend()) != 1)
+		if (std::distance(it, replace_space_set.cend()) != 1)
 		{
-			delete_str += QStringLiteral(",");
+			delete_str += QStringLiteral("\n");
 		}
 	}
 	//设置ui
-	ui.textEdit_nomean_showedit->setText(delete_str);
+	ui.textEdit_replacespace_showedit->setText(delete_str);
 }
 
 void QGuiWxSetting::on_setalias_add()
@@ -198,55 +198,55 @@ void QGuiWxSetting::on_setreplace_apply()
 		QMessageBox::warning(this, QStringLiteral("警告"), QStringLiteral("alias.ini打开失败!"));
 }
 
-void QGuiWxSetting::on_setnomean_add()
+void QGuiWxSetting::on_setreplacespace_add()
 {
-	QString src_str = ui.textEdit_nomean_showedit->toPlainText();
-	QString add_str = ui.lineEdit_nomean_lineedit->text();
+	QString src_str = ui.textEdit_replacespace_showedit->toPlainText();
+	QString add_str = ui.lineEdit_replacespace_lineedit->text();
 
 	if (!add_str.isEmpty() && !src_str.contains(add_str))
 	{
-		ui.textEdit_nomean_showedit->setText(src_str + QStringLiteral(",") + add_str);
+		ui.textEdit_replacespace_showedit->setText(src_str + QStringLiteral(",") + add_str);
 	}
 }
 
-void QGuiWxSetting::on_setnomean_del()
+void QGuiWxSetting::on_setreplacespace_del()
 {
-	QString src_str = ui.textEdit_nomean_showedit->toPlainText();
-	QString del_str = ui.lineEdit_nomean_lineedit->text();
+	QString src_str = ui.textEdit_replacespace_showedit->toPlainText();
+	QString del_str = ui.lineEdit_replacespace_lineedit->text();
 	if (!del_str.isEmpty() && src_str.contains(del_str))
 	{
 		src_str.replace(QStringLiteral(",") + del_str, QStringLiteral(""));
 		src_str.replace(del_str, QStringLiteral(""));
-		ui.textEdit_nomean_showedit->setText(src_str);
+		ui.textEdit_replacespace_showedit->setText(src_str);
 	}
 }
 
-void QGuiWxSetting::on_setnomean_apply()
+void QGuiWxSetting::on_setreplacespace_apply()
 {
 	QwxSetting *wxSetting = QwxSetting::ins();
 	std::set<QString, strLenComp> delete_set;
 
-	QString del_str = ui.textEdit_nomean_showedit->toPlainText();
-	QStringList delete_list = del_str.split(QStringLiteral(","));
+	QString del_str = ui.textEdit_replacespace_showedit->toPlainText();
+	QStringList delete_list = del_str.split(QStringLiteral("\n"));
 	for (auto deletec : delete_list)
 	{
 		delete_set.insert(deletec);
 	}
-	wxSetting->SetDeleteSet(delete_set);
+	wxSetting->SetReplaceSpaceSet(delete_set);
 
 
 
 	QString app_path = QApplication::applicationDirPath();
 	QFile f;
 
-	f.setFileName(app_path + QStringLiteral("/nomean.ini"));
+	f.setFileName(app_path + QStringLiteral("/替换空格.ini"));
 	if (f.open(QIODevice::WriteOnly | QIODevice::Text))
 	{
 		QTextStream txtInput(&f);
 		txtInput.setCodec("UTF-8"); //请注意这行
-		txtInput << QStringLiteral("无义字符=") << del_str;
+		txtInput << del_str;
 		f.close();
 	}
 	else
-		QMessageBox::warning(this, QStringLiteral("警告"), QStringLiteral("nomean.ini打开失败!"));
+		QMessageBox::warning(this, QStringLiteral("警告"), QStringLiteral("替换空格.ini打开失败!"));
 }

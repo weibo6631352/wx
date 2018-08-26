@@ -33,10 +33,9 @@ public:
 
 	const QMap<QString, QSet<QString>>& GetAliasMap();
 	const std::map<QString, QString, strLenComp>& GetReplaceMap();
-	const std::set<QString, strLenComp>& GetDeleteSet();
+	const std::set<QString, strLenComp>& GetReplaceSpaceSet();
 	const QMap<QString, double>& GetAgencyProfitMap();
 	const QMap<QString, double>& GetGoodsProfitMap();
-	const QSet<QString>& GetSplitSet();
 	const QString GetPreGoods();
 	const std::set <QString, strLenComp>& GetTotolDict();
 	const std::set<QString, strLenComp>& GetGegeDict();
@@ -44,7 +43,7 @@ public:
 	void SetPreGoods(QString goods);
 	void SetAliasMap(QMap<QString, QSet<QString>> &alias_map);
 	void SetReplaceMap(const std::map<QString, QString, strLenComp> &replace_map);
-	void SetDeleteSet(std::set<QString, strLenComp> &delete_set);
+	void SetReplaceSpaceSet(std::set<QString, strLenComp> &delete_set);
 
 	
 	QVector<QString> GetAllGoodsAliasStrsort();
@@ -64,9 +63,8 @@ private:
 	QMap<QString, double> good_Profit_; //物品系数
 	QMap<QString, QSet<QString>> alias_; //物品别名
 	std::map<QString, QString, strLenComp> replace_; //别名替换
-	std::set<QString, strLenComp> delete_; //删除字段
+	std::set<QString, strLenComp> replace_space_; //删除字段
 	QMap<QString, double> agencyProfit_; //代理系数
-	QSet<QString> split_set_; //分隔符
 	std::set <QString, strLenComp> totolDict_; //合计字典
 	std::set<QString, strLenComp> gegeDict_; //各个字典
 	QString pre_goods_;	//上一场开的宝物

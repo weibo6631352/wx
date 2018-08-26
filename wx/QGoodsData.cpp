@@ -45,54 +45,24 @@ void QGoodsData::ClaerUserData()
 
 bool checkError(QString line, QwxLog *wxLogs)
 {
-	/**
-	*	Check 1
-	*检查逗号后不能是数字
-	*/
-	QString temp_line = line;
-	temp_line.remove(" ");
-
-	QSet<QString> splits = QwxSetting::ins()->GetSplitSet();
-	for (auto split_item : splits)
-	{
-		if (!split_item.isEmpty() && temp_line.contains(split_item))
-		{
-			QStringList split_str = temp_line.split(split_item);
-			for (int j = 0; j < split_str.size(); ++j)
-			{
-				QString block = split_str[j];
-				if (!block.isEmpty() )
-				{
-					if (block.at(0).isDigit())
-					{
-						wxLogs->SetErrStr(QStringLiteral("被分隔符分段后不能以数字开头!：") + block);
-						return false;
-					}
-				}
-			}
-		}
-	}
-
-
-	// 2，检查是否有数字空格+数字的格式
-	QRegExp rx(QStringLiteral("[0-9]+\\s+[0-9]+"));//
-	if (rx.indexIn(line,0) != -1)
-	{
-		wxLogs->SetErrStr(QStringLiteral("检测到数字+空格+数字的情况，禁止录入！") + line);
-		return false;
-	}
+// 	// 2，检查是否有数字空格+数字的格式
+// 	QRegExp rx(QStringLiteral("[0-9]+\\s+[0-9]+"));//
+// 	if (rx.indexIn(line,0) != -1)
+// 	{
+// 		wxLogs->SetErrStr(QStringLiteral("检测到数字+空格+数字的情况，禁止录入！") + line);
+// 		return false;
+// 	}
 
 	return true;
 }
 
-bool QGoodsData::InputData(QString input)
+bool QGoodsData::InputData(QString input, QString &err_label)
 {
 	QwxSetting *wxSetting = QwxSetting::ins();
 	QwxLog *wxLogs = QwxLog::ins();
 	const QMap<QString, QSet<QString>>& alias_map = wxSetting->GetAliasMap();
 	const std::map<QString, QString, strLenComp> &replace_map = wxSetting->GetReplaceMap();
-	const std::set<QString, strLenComp> &remove_set = wxSetting->GetDeleteSet();
-	const QSet<QString> &split_set = wxSetting->GetSplitSet();
+	const std::set<QString, strLenComp> &replace_space_set = wxSetting->GetReplaceSpaceSet();
 	const std::set<QString, strLenComp> &totolDict = wxSetting->GetTotolDict();
 	const std::set<QString, strLenComp> &gegeDict = wxSetting->GetGegeDict();
 
@@ -128,13 +98,11 @@ bool QGoodsData::InputData(QString input)
 			else
 			{
 				wxLogs->SetErrStr(QStringLiteral("已匹配到时间，但是代理名好像不对，已阻止录入!：") + line_str);
+				err_label = line_str;
 				return false;
 			}
 		}
 
-
-		if (checkError(line_str, wxLogs) == false)
-			return false;
 
 		//替换字符
 		for (auto iter = replace_map.cbegin(); iter != replace_map.cend(); ++iter)
@@ -144,17 +112,9 @@ bool QGoodsData::InputData(QString input)
 		
 		line_str.replace(QStringLiteral("="), QStringLiteral("合计"));
 		line_str.replace(QStringLiteral("＝"), QStringLiteral("合计"));
-		if (false == checkError(line_str, wxLogs))
-			return false;
 
-		//删除字符
- 		//line_str.replace(QStringLiteral(" "), QStringLiteral(""));
- 		line_str.replace(QStringLiteral("\t"), QStringLiteral(" "));
-		for (auto iter = split_set.begin(); iter != split_set.end(); ++iter)
-		{
-			line_str.replace(*iter, QStringLiteral(" "));
-		}
-		for (auto iter = remove_set.begin(); iter != remove_set.end(); ++iter)
+		// 
+		for (auto iter = replace_space_set.begin(); iter != replace_space_set.end(); ++iter)
 		{
 			line_str.replace(*iter, QStringLiteral(" "));
 		}
@@ -186,6 +146,7 @@ bool QGoodsData::InputData(QString input)
 				QStringList list = line_str.split(gegestr);
 				if (list.size() != 2)
 				{
+					err_label = line_str;
 					wxLogs->SetErrStr(QStringLiteral("不能识别：") + line_str);
 					return false;
 				}
@@ -200,6 +161,7 @@ bool QGoodsData::InputData(QString input)
 			if (left.isEmpty() || ExtractNum(right).isEmpty())
 			{
 				wxLogs->SetErrStr(QStringLiteral("不能识别：") + line_str);
+				err_label = line_str;
 				return false;
 			}
 
@@ -226,6 +188,7 @@ bool QGoodsData::InputData(QString input)
  					if (good_set.contains(name))
  					{
  						wxLogs->SetErrStr(QStringLiteral("重复的物品，请确认是否输重了：") + line_str);
+						err_label = line_str;
  						return false;
  					}
 					left.remove(pos, rx.matchedLength());
@@ -237,11 +200,13 @@ bool QGoodsData::InputData(QString input)
 			if (!good_set.size())
 			{
 				wxLogs->SetErrStr(QStringLiteral("没有可识别的宝,或者有重复的宝：") + line_str);
+				err_label = line_str;
 				return false;
 			}
 			if (!left.remove(' ').remove('\t').remove('\n').isEmpty())
 			{
 				wxLogs->SetErrStr(QStringLiteral("不能识别或者是有重复的宝：") + left);
+				err_label = line_str;
 				return false;
 			}
 
@@ -265,6 +230,7 @@ bool QGoodsData::InputData(QString input)
 			if (!sub_num.isEmpty())
 			{
 				wxLogs->SetErrStr(QStringLiteral("您输入的数量有误：") + right);
+				err_label = line_str;
 				return false;
 			}
 
@@ -297,6 +263,7 @@ bool QGoodsData::InputData(QString input)
 			{
 				if (QMessageBox::No == QMessageBox::question(nullptr, goods + QStringLiteral("数量为0，请确认无误?"), goods + QStringLiteral("数量为0，请确认无误?"), QMessageBox::Yes, QMessageBox::No))
 				{
+					err_label = line_str;
 					return false;
 				}
 			}
@@ -310,6 +277,7 @@ bool QGoodsData::InputData(QString input)
 			{
 				if (preAdd != curAdd)
 				{
+					err_label = line_str;
 					wxLogs->SetErrStr(QStringLiteral("限制同行内既有加又有减：") + goods);
 					return false;
 				}
@@ -340,6 +308,7 @@ bool QGoodsData::InputData(QString input)
 				QString find_goods = wxSetting->GetRealNameByAlias(goods);
 				if (find_goods.isEmpty())
 				{
+					err_label = line_str;
 					wxLogs->SetErrStr(QStringLiteral("不能识别：") + goods);
 					return false;
 				}
@@ -358,6 +327,8 @@ bool QGoodsData::InputData(QString input)
 
 		if (!residue.isEmpty())
 		{
+			if(tip_str.isEmpty())
+				err_label = residue;
 			tip_str = tip_str + residue + QStringLiteral("\n");
 		}
 		output_v.push_back(line_output);
@@ -400,8 +371,7 @@ void QGoodsData::RevocationData(QString src_str, QString input)
 	QwxLog *wxLogs = QwxLog::ins();
 	const QMap<QString, QSet<QString>>& alias_map = wxSetting->GetAliasMap();
 	const std::map<QString, QString, strLenComp> &replace_map = wxSetting->GetReplaceMap();
-	const std::set<QString, strLenComp > &remove_set = wxSetting->GetDeleteSet();
-	const QSet<QString> &split_set = wxSetting->GetSplitSet();
+	const std::set<QString, strLenComp > &replace_space_set = wxSetting->GetReplaceSpaceSet();
 	const std::set<QString, strLenComp> &totolDict = wxSetting->GetTotolDict();
 	const std::set<QString, strLenComp> &gegeDict = wxSetting->GetGegeDict();
 
@@ -449,13 +419,7 @@ void QGoodsData::RevocationData(QString src_str, QString input)
 			return;
 
 		//删除字符
- 		//line_str.replace(QStringLiteral(" "), QStringLiteral(""));
- 		line_str.replace(QStringLiteral("\t"), QStringLiteral(" "));
-		for (auto iter = split_set.begin(); iter != split_set.end(); ++iter)
-		{
-			line_str.replace(*iter, QStringLiteral(" "));
-		}
-		for (auto iter = remove_set.begin(); iter != remove_set.end(); ++iter)
+		for (auto iter = replace_space_set.begin(); iter != replace_space_set.end(); ++iter)
 		{
 			line_str.replace(*iter, QStringLiteral(" "));
 		}

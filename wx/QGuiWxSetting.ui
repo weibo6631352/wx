@@ -77,13 +77,13 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_nomean">
+     <widget class="QWidget" name="tab_replacespace">
       <attribute name="title">
-       <string>无义字符</string>
+       <string>替换空格</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_10">
        <item>
-        <widget class="QTextEdit" name="textEdit_nomean_showedit">
+        <widget class="QTextEdit" name="textEdit_replacespace_showedit">
          <property name="readOnly">
           <bool>true</bool>
          </property>
@@ -92,17 +92,17 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_11">
          <item>
-          <widget class="QLineEdit" name="lineEdit_nomean_lineedit"/>
+          <widget class="QLineEdit" name="lineEdit_replacespace_lineedit"/>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_nomean_add">
+          <widget class="QPushButton" name="pushButton_replacespace_add">
            <property name="text">
             <string>添加</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_nomean_del">
+          <widget class="QPushButton" name="pushButton_replacespace_del">
            <property name="text">
             <string>移除</string>
            </property>
@@ -111,7 +111,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_nomean_apply">
+        <widget class="QPushButton" name="pushButton_replacespace_apply">
          <property name="text">
           <string>保存</string>
          </property>
@@ -211,10 +211,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_nomean_add</sender>
+   <sender>pushButton_replacespace_add</sender>
    <signal>clicked()</signal>
    <receiver>QGuiWxSetting</receiver>
-   <slot>on_setnomean_add()</slot>
+   <slot>on_setreplacespace_add()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>323</x>
@@ -227,10 +227,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_nomean_del</sender>
+   <sender>pushButton_replacespace_del</sender>
    <signal>clicked()</signal>
    <receiver>QGuiWxSetting</receiver>
-   <slot>on_setnomean_del()</slot>
+   <slot>on_setreplacespace_del()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>404</x>
@@ -243,10 +243,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_nomean_apply</sender>
+   <sender>pushButton_replacespace_apply</sender>
    <signal>clicked()</signal>
    <receiver>QGuiWxSetting</receiver>
-   <slot>on_setnomean_apply()</slot>
+   <slot>on_setreplacespace_apply()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>176</x>
@@ -327,9 +327,9 @@
   <slot>on_setalias_add()</slot>
   <slot>on_setalias_del()</slot>
   <slot>on_setalias_apply()</slot>
-  <slot>on_setnomean_add()</slot>
-  <slot>on_setnomean_del()</slot>
-  <slot>on_setnomean_apply()</slot>
+  <slot>on_setreplacespace_add()</slot>
+  <slot>on_setreplacespace_del()</slot>
+  <slot>on_setreplacespace_apply()</slot>
   <slot>on_setreplace_add()</slot>
   <slot>on_setreplace_del()</slot>
   <slot>on_setreplace_apply()</slot>

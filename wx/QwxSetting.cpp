@@ -94,30 +94,22 @@ bool QwxSetting::ReadIni(QString path /*= QString()*/)
 	}
 		
 
-	//无义字符
-	f.setFileName(app_path + QStringLiteral("/nomean.ini"));
+	//替换空格
+	f.setFileName(app_path + QStringLiteral("/替换空格.ini"));
 	if (f.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
 		QTextStream txtInput(&f);
 		txtInput.setCodec("UTF-8"); //请注意这行
-		if (!txtInput.atEnd())
+		while (!txtInput.atEnd())
 		{
-			lineStr = txtInput.readLine();
-			QStringList str_list = lineStr.split(QStringLiteral("="));
-			if (str_list.size() == 2)
-			{
-				QStringList splitList = str_list[1].split(QStringLiteral(","));
-				for (auto i : splitList)
-				{
-					delete_.insert(i);
-				}
-			}
+			replace_space_.insert(txtInput.readLine());
 		}
+
 		f.close();
 	}
 	else
 	{
-		QMessageBox::warning(nullptr, QStringLiteral("警告"), QStringLiteral("nomean.ini打开失败!"));
+		QMessageBox::warning(nullptr, QStringLiteral("警告"), QStringLiteral("替换空格.ini打开失败!"));
 		return false;
 	}
 		
@@ -184,7 +176,7 @@ bool QwxSetting::ReadIni(QString path /*= QString()*/)
 			lineStr = txtInput.readLine();
 			if (lineStr == QStringLiteral(" "))
 			{
-				QMessageBox::warning(nullptr, QStringLiteral("警告"), QStringLiteral("合计字典.ini中。分隔符不要设置为空格!"));
+				QMessageBox::warning(nullptr, QStringLiteral("警告"), QStringLiteral("合计字典.ini中，间隔符不要设置为空格!"));
 				return false;
 			}
 			totolDict_.insert(lineStr);
@@ -221,31 +213,6 @@ bool QwxSetting::ReadIni(QString path /*= QString()*/)
 		QMessageBox::warning(nullptr, QStringLiteral("警告"), QStringLiteral("各个字典.ini打开失败!"));
 		return false;
 	}
-
-	// 分隔符
-	f.setFileName(app_path + QStringLiteral("/分隔符.ini"));
-	if (f.open(QIODevice::ReadOnly | QIODevice::Text))
-	{
-		QTextStream txtInput(&f);
-		txtInput.setCodec("UTF-8"); //请注意这行
-
-		while (!txtInput.atEnd())
-		{
-			lineStr = txtInput.readLine();
-			if (lineStr == QStringLiteral(" "))
-			{
-				QMessageBox::warning(nullptr, QStringLiteral("警告"), QStringLiteral("分隔符.ini中。分隔符不要设置为空格!"));
-				return false;
-			}
-			split_set_.insert(lineStr);
-		}
-		f.close();
-	}
-	else
-	{
-		QMessageBox::warning(nullptr, QStringLiteral("警告"), QStringLiteral("分隔符.ini打开失败!"));
-		return false;
-	}
 		
 	SortAllGoodsAlias();
 
@@ -262,9 +229,9 @@ const std::map<QString, QString, strLenComp>& QwxSetting::GetReplaceMap()
 	return replace_;
 }
 
-const std::set<QString, strLenComp>& QwxSetting::GetDeleteSet()
+const std::set<QString, strLenComp>& QwxSetting::GetReplaceSpaceSet()
 {
-	return delete_;
+	return replace_space_;
 }
 
 const QMap<QString, double>& QwxSetting::GetAgencyProfitMap()
@@ -275,11 +242,6 @@ const QMap<QString, double>& QwxSetting::GetAgencyProfitMap()
 const QMap<QString, double>& QwxSetting::GetGoodsProfitMap()
 {
 	return good_Profit_;
-}
-
-const QSet<QString>& QwxSetting::GetSplitSet()
-{
-	return split_set_;
 }
 
 const QString QwxSetting::GetPreGoods()
@@ -312,9 +274,9 @@ void QwxSetting::SetReplaceMap(const std::map<QString, QString, strLenComp> &rep
 	replace_ = replace_map;
 }
 
-void QwxSetting::SetDeleteSet(std::set<QString, strLenComp> &delete_set)
+void QwxSetting::SetReplaceSpaceSet(std::set<QString, strLenComp> &delete_set)
 {
-	delete_ = delete_set;
+	replace_space_ = delete_set;
 }
 
 // 返回所有别名和实际名字

@@ -204,7 +204,9 @@ void wx::on_datainput()
  	QString input = ui.tabWidget_dataInput->GetCurTabWidget()->toPlainText();
 	QString user = ui.tabWidget_dataInput->GetCurTabTitle();
 
-	if (QwxData::ins()->GetUserData(user)->InputData(input))
+
+	QString  err_label;
+	if (QwxData::ins()->GetUserData(user)->InputData(input, err_label))
 	{
 		UpdateDailiJishu();
 		// 更新输入记录
@@ -217,6 +219,20 @@ void wx::on_datainput()
 		view_port_->on_updateCharts();
 		// 设置焦点
 		ui.tabWidget_dataInput->SetFocus();
+	}
+	else
+	{
+
+		QTextCursor cur = ui.tabWidget_dataInput->GetCurTabWidget()->textCursor();//返回当前光标对象
+		int err_label_index = input.indexOf(err_label);
+		if (err_label_index != -1)
+		{
+			cur.setPosition(input.indexOf(err_label), QTextCursor::MoveAnchor);//移到起始位置
+			cur.movePosition(QTextCursor::NoMove, QTextCursor::KeepAnchor, err_label_index + err_label.size());//移动结束位置
+			cur.select(QTextCursor::WordUnderCursor);//选择
+			ui.tabWidget_dataInput->GetCurTabWidget()->setTextCursor(cur);
+			ui.tabWidget_dataInput->SetFocus();
+		}
 	}
 }
 

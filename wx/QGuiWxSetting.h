@@ -21,9 +21,9 @@ public slots:
 	void on_setreplace_del();
 	void on_setreplace_apply();
 
-	void on_setnomean_add();
-	void on_setnomean_del();
-	void on_setnomean_apply();
+	void on_setreplacespace_add();
+	void on_setreplacespace_del();
+	void on_setreplacespace_apply();
 
 private:
 	Ui::QGuiWxSetting ui;
