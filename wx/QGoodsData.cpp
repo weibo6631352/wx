@@ -226,7 +226,7 @@ bool QGoodsData::InputData(QString input, QString &err_label)
 			}
 
 
-			QString sub_num = SubNumber(num_strr);
+			QString sub_num = SubNumber(num_strr.trimmed());
 			if (!sub_num.isEmpty())
 			{
 				wxLogs->SetErrStr(QStringLiteral("您输入的数量有误：") + right);
@@ -527,7 +527,7 @@ void QGoodsData::RevocationData(QString src_str, QString input)
 			}
 
 
-			QString sub_num = SubNumber(num_strr);
+			QString sub_num = SubNumber(num_strr.trimmed());
 			if (!sub_num.isEmpty())
 			{
 				wxLogs->SetErrStr(QStringLiteral("您输入的数量有误：") + right);

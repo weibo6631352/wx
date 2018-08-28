@@ -205,7 +205,7 @@ void QGuiWxSetting::on_setreplacespace_add()
 
 	if (!add_str.isEmpty() && !src_str.contains(add_str))
 	{
-		ui.textEdit_replacespace_showedit->setText(src_str + QStringLiteral(",") + add_str);
+		ui.textEdit_replacespace_showedit->setText(src_str + QStringLiteral("\n") + add_str);
 	}
 }
 
@@ -215,7 +215,7 @@ void QGuiWxSetting::on_setreplacespace_del()
 	QString del_str = ui.lineEdit_replacespace_lineedit->text();
 	if (!del_str.isEmpty() && src_str.contains(del_str))
 	{
-		src_str.replace(QStringLiteral(",") + del_str, QStringLiteral(""));
+		src_str.replace(QStringLiteral("\n") + del_str, QStringLiteral(""));
 		src_str.replace(del_str, QStringLiteral(""));
 		ui.textEdit_replacespace_showedit->setText(src_str);
 	}
