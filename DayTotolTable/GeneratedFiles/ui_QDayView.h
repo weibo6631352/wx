@@ -30,7 +30,7 @@ public:
     {
         if (QDayView->objectName().isEmpty())
             QDayView->setObjectName(QStringLiteral("QDayView"));
-        QDayView->resize(838, 258);
+        QDayView->resize(838, 319);
         gridLayout = new QGridLayout(QDayView);
         gridLayout->setSpacing(0);
         gridLayout->setContentsMargins(11, 11, 11, 11);

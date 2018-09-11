@@ -274,7 +274,6 @@ void DayTotolTable::on_change_date()
 			
 			QDayView *daili_view = new QDayView;
 			QTableWidget* tabel = daili_view->getTable();
-
 			QFont head_font(daili_view->font());
 			head_font.setPixelSize(22);
 
@@ -425,8 +424,14 @@ void DayTotolTable::on_change_date()
  			QTableWidgetItem *zhongbaoxuyaopeideqian_totol = new QTableWidgetItem(QString::number(tabel->item(3, 5)->text().toInt() + tabel->item(4, 5)->text().toInt() + tabel->item(5, 5)->text().toInt()));
 			zhongbaoxuyaopeideqian_totol->setTextAlignment(Qt::AlignCenter);
  			
-			QTableWidgetItem *heji_totol = new QTableWidgetItem(/*QStringLiteral("代理需付上家") +*/ QString::number(tabel->item(3, 6)->text().toInt() + tabel->item(4, 6)->text().toInt() + tabel->item(5, 6)->text().toInt()));
+			QTableWidgetItem *heji_totol;
+			int heji_totol_int = tabel->item(3, 6)->text().toInt() + tabel->item(4, 6)->text().toInt() + tabel->item(5, 6)->text().toInt();
+			if (heji_totol_int>0)
+				heji_totol = new QTableWidgetItem(QStringLiteral("代理需付上家") + QString::number(heji_totol_int));
+			else
+				heji_totol = new QTableWidgetItem(QStringLiteral("上家需付代理") + QString::number(-heji_totol_int));
 			heji_totol->setBackgroundColor(QColor(106,168,79,200));
+			heji_totol->setFont(QFont("Microsoft YaHei",10, 30));
 			heji_totol->setForeground(QColor(255, 255, 0));
 			heji_totol->setTextAlignment(Qt::AlignCenter);
 			
@@ -443,6 +448,8 @@ void DayTotolTable::on_change_date()
 			QTableWidgetItem *guanggao = new QTableWidgetItem(QStringLiteral("广告：资讯花字单统计分析服务加微信：AzhangZihua"));
 			guanggao->setTextAlignment(Qt::AlignCenter);
 			tabel->setItem(7, 0, guanggao);
+
+			tabel->resizeRowsToContents();
 			daili_view->show();
 			daili_view->setAttribute(Qt::WA_DeleteOnClose);
 		}
