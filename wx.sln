@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2042
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DesolateTotol", "DesolateTotol\DesolateTotol.vcxproj", "{DF6C560E-B971-45B5-A61A-27937F585FC5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KaibaoTotol", "KaibaoTotol\KaibaoTotol.vcxproj", "{F5FA6565-46C1-4FFB-ABF3-865D864669E4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wx", "wx\wx.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DayTotolTable", "DayTotolTable\DayTotolTable.vcxproj", "{FD2321FA-3C02-4313-B523-54E89DA7BB58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,12 @@ Global
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.Build.0 = Release|x64
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x86.ActiveCfg = Release|Win32
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x86.Build.0 = Release|Win32
+		{FD2321FA-3C02-4313-B523-54E89DA7BB58}.Debug|x64.ActiveCfg = Debug|x64
+		{FD2321FA-3C02-4313-B523-54E89DA7BB58}.Debug|x64.Build.0 = Debug|x64
+		{FD2321FA-3C02-4313-B523-54E89DA7BB58}.Debug|x86.ActiveCfg = Debug|x64
+		{FD2321FA-3C02-4313-B523-54E89DA7BB58}.Release|x64.ActiveCfg = Release|x64
+		{FD2321FA-3C02-4313-B523-54E89DA7BB58}.Release|x64.Build.0 = Release|x64
+		{FD2321FA-3C02-4313-B523-54E89DA7BB58}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

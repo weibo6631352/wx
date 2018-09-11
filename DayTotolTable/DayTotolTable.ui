@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DayTotolTableClass</class>
+ <widget class="QWidget" name="DayTotolTableClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>557</width>
+    <height>82</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>日结统计</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_date_path">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButton_selete_datedir">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="DayTotolTable.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>toolButton_selete_datedir</sender>
+   <signal>clicked()</signal>
+   <receiver>DayTotolTableClass</receiver>
+   <slot>on_change_date()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>527</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>605</x>
+     <y>21</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>on_change_date()</slot>
+ </slots>
+</ui>

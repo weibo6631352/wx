@@ -71,7 +71,7 @@ void QGuiViewport::InitUi()
 
 void QGuiViewport::on_export()
 {
-	
+	QString local = QwxSetting::ins()->title_;
 	if (!QwxData::ins()->GetUserCount())
 	{
 		QMessageBox::information(this, QStringLiteral(""), QStringLiteral("无用户数据"), 0);
@@ -85,13 +85,44 @@ void QGuiViewport::on_export()
 	for (auto it = wxData->user_data_.begin(); it != wxData->user_data_.end(); ++it)
 	{
 		QGoodsData *data = it.value();
-		QString exp_dir_path = QApplication::applicationDirPath() + QStringLiteral("/导出/") + QStringLiteral("/");
+		QString exp_dir_path = QApplication::applicationDirPath() + QStringLiteral("/导出/");
 		QString date_dir_path = exp_dir_path + data->date_ + QStringLiteral("/");
-		QString session_dir_path = date_dir_path + data->session_ + QStringLiteral("场/");
+		QString local_path = date_dir_path + local + QStringLiteral("/");
+		QString session_dir_path = local_path + data->session_ + QStringLiteral("场/");
 		QString user_dir_path = session_dir_path + data->user_ + QStringLiteral("/");
 		if (CreateDir(exp_dir_path))
 		{
 			if (CreateDir(date_dir_path))
+			{
+				if (CreateDir(local_path))
+				{
+					if (CreateDir(session_dir_path))
+					{
+						if (CreateDir(user_dir_path))
+						{
+							on_exportTotolPic(user_dir_path, data->user_);
+							on_exportTotolTxt(user_dir_path, data->user_);
+							on_exportLog(user_dir_path, data->user_);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	QGoodsData *data = QwxData::ins()->GetTotolData();
+	QString exp_dir_path = QApplication::applicationDirPath() + QStringLiteral("/导出/");
+	QString date_dir_path = exp_dir_path + data->date_ + QStringLiteral("/");
+	QString local_path = date_dir_path + local + QStringLiteral("/");
+	QString session_dir_path = local_path + data->session_ + QStringLiteral("场/");
+	QString user_dir_path = session_dir_path + data->user_ + QStringLiteral("/");
+
+
+	if (CreateDir(exp_dir_path))
+	{
+		if (CreateDir(date_dir_path))
+		{
+			if (CreateDir(local_path))
 			{
 				if (CreateDir(session_dir_path))
 				{
@@ -101,29 +132,6 @@ void QGuiViewport::on_export()
 						on_exportTotolTxt(user_dir_path, data->user_);
 						on_exportLog(user_dir_path, data->user_);
 					}
-				}
-			}
-		}
-	}
-
-	QGoodsData *data = QwxData::ins()->GetTotolData();
-	QString exp_dir_path = QApplication::applicationDirPath() + QStringLiteral("/导出/") + QStringLiteral("/");
-	QString date_dir_path = exp_dir_path + data->date_ + QStringLiteral("/");
-	QString session_dir_path = date_dir_path + data->session_ + QStringLiteral("场/");
-	QString user_dir_path = session_dir_path + data->user_ + QStringLiteral("/");
-
-
-	if (CreateDir(exp_dir_path))
-	{
-		if (CreateDir(date_dir_path))
-		{
-			if (CreateDir(session_dir_path))
-			{
-				if (CreateDir(user_dir_path))
-				{
-					on_exportTotolPic(user_dir_path, data->user_);
-					on_exportTotolTxt(user_dir_path, data->user_);
-					on_exportLog(user_dir_path, data->user_);
 				}
 			}
 		}

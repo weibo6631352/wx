@@ -33,8 +33,11 @@ QWxLogin::~QWxLogin()
 
 void QWxLogin::accept()
 {
+	date_ = QString::number(ui.dateEdit_setdate->date().year()) + QStringLiteral("-");
+	date_ = date_ + QString::number(ui.dateEdit_setdate->date().month()) + QStringLiteral("-");
+	date_ = date_ + QString::number(ui.dateEdit_setdate->date().day()) ;
+
 	title_ = ui.lineEdit_settitle->text();
-	date_ = ui.dateEdit_setdate->text();
 	session_ = ui.lineEdit_setsession->text();
 
 	if (!title_.isEmpty() && !session_.isEmpty())
