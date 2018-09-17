@@ -6,6 +6,7 @@
 #include <QTextStream>
 #include <QFile>
 #include <QMessageBox>
+#include <QLineEdit>
 
 DayTotolTable::DayTotolTable(QWidget *parent)
 	: QWidget(parent)
@@ -234,27 +235,9 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
 	return true;
 }
 
-void DayTotolTable::on_change_date()
+void DayTotolTable::on_totol()
 {
-	QString dir_path = QFileDialog::getExistingDirectory(this, QStringLiteral("请选择日期文件夹..."), QApplication::applicationDirPath());
-	if (dir_path.isEmpty())
-	{
-		return;
-	}
 	QString log;
-	ui.label_date_path->setText(dir_path);
-
-	// 场地 代理 场次
-	QMap<QString, QMap<QString, QMap<QString, DataInfo>>> locals_info;
-	QMap<QString, QVector<QString>> kaibao_result;
-	QMap<QString, double> daili_profit;
-	QMap<QString, double> good_Profit;
-	QString date;
-	if (!getUserSetting(dir_path, locals_info, kaibao_result, daili_profit, good_Profit,date))
-		return;
-
-
-
 	// 遍历场地
 	for (auto local_it = locals_info.begin(); local_it != locals_info.end(); ++local_it)
 	{
@@ -267,11 +250,11 @@ void DayTotolTable::on_change_date()
 				log += QStringLiteral("\n") + local_name + daili_name + QStringLiteral("场次为空");
 				continue;
 			}
-				
+
 			double dailifit = daili_profit.find(daili_name) != daili_profit.end() ?
 				daili_profit[daili_name] : daili_profit[QStringLiteral("默认")];
 
-			
+
 			QDayView *daili_view = new QDayView;
 			QTableWidget* tabel = daili_view->getTable();
 			QFont head_font(daili_view->font());
@@ -280,7 +263,7 @@ void DayTotolTable::on_change_date()
 			QFont nomal_font("Microsoft YaHei", 14, 30);
 			tabel->setFont(nomal_font);
 
-			
+
 			QTableWidgetItem *biaoti = new QTableWidgetItem(QStringLiteral("小代理日结单"));
 			biaoti->setBackground(QColor(128, 128, 128, 180));
 			biaoti->setForeground(QColor(222, 222, 222));
@@ -353,8 +336,8 @@ void DayTotolTable::on_change_date()
 
 			for (int i = 0; i < 3; ++i)
 			{
-				int row = 2 + i+1;
-				QTableWidgetItem *changci_value = new QTableWidgetItem(QStringLiteral("第") + QString::number(i+1) + QStringLiteral("场"));
+				int row = 2 + i + 1;
+				QTableWidgetItem *changci_value = new QTableWidgetItem(QStringLiteral("第") + QString::number(i + 1) + QStringLiteral("场"));
 				changci_value->setTextAlignment(Qt::AlignCenter);
 				QTableWidgetItem *kaibao_value = new QTableWidgetItem(QStringLiteral("未开"));
 				kaibao_value->setTextAlignment(Qt::AlignCenter);
@@ -385,22 +368,26 @@ void DayTotolTable::on_change_date()
 				int row = 2 + session_int;
 				if (kaibao_result[local_name].size() < session_int)
 				{
-					log += QStringLiteral("\n") + date+ local_name
+					log += QStringLiteral("\n") + date + local_name
 						+ session_str + QStringLiteral("未设置开宝物品");
 					continue;
 				}
 				session_size++;
-				QString kaibao_str = kaibao_result[local_name][session_int-1];
-				
+				QString kaibao_str = kaibao_result[local_name][session_int - 1];
+
 				std::map<QString, int>& data = locals_info[local_name][daili_name][session_str].data;
 				int yazhuzonge_int = 0;
 				for (auto data_it = data.begin(); data_it != data.end(); data_it++)
 				{
 					yazhuzonge_int += data_it->second;
 				}
-				int dailifei_int = yazhuzonge_int*daili_profit[daili_name] / 100;
+
+				double dailifit_session = daili_session_profit[daili_name].find(session_str) != daili_session_profit[daili_name].end() ?
+					daili_session_profit[daili_name][session_str] : daili_profit[QStringLiteral("默认")];
+
+				int dailifei_int = yazhuzonge_int*dailifit_session / 100.0;
 				QString zongyazhue_str = QString::number(yazhuzonge_int);
-				int zhongbaoxuyaopeideqian_int= data[kaibao_str] * good_Profit[kaibao_str];
+				int zhongbaoxuyaopeideqian_int = data[kaibao_str] * good_Profit[kaibao_str];
 
 				tabel->item(row, 1)->setText(kaibao_str);
 				tabel->item(row, 2)->setText(zongyazhue_str);
@@ -411,30 +398,30 @@ void DayTotolTable::on_change_date()
 			}
 			int yazhuzonge_int = tabel->item(3, 2)->text().toInt() + tabel->item(4, 2)->text().toInt() + tabel->item(5, 2)->text().toInt();
 
-			
- 			QTableWidgetItem *hejichangci = new QTableWidgetItem(QStringLiteral("合计")+QString::number(session_size)+QStringLiteral("场"));
- 			hejichangci->setTextAlignment(Qt::AlignCenter);
- 			QTableWidgetItem *yazhuzonge_totol = new QTableWidgetItem(QString::number(yazhuzonge_int));
- 			yazhuzonge_totol->setTextAlignment(Qt::AlignCenter);
- 			QTableWidgetItem *dailifei_totol = new QTableWidgetItem(QString::number(tabel->item(3, 3)->text().toInt() + tabel->item(4, 3)->text().toInt() + tabel->item(5, 3)->text().toInt()));
+
+			QTableWidgetItem *hejichangci = new QTableWidgetItem(QStringLiteral("合计") + QString::number(session_size) + QStringLiteral("场"));
+			hejichangci->setTextAlignment(Qt::AlignCenter);
+			QTableWidgetItem *yazhuzonge_totol = new QTableWidgetItem(QString::number(yazhuzonge_int));
+			yazhuzonge_totol->setTextAlignment(Qt::AlignCenter);
+			QTableWidgetItem *dailifei_totol = new QTableWidgetItem(QString::number(tabel->item(3, 3)->text().toInt() + tabel->item(4, 3)->text().toInt() + tabel->item(5, 3)->text().toInt()));
 			dailifei_totol->setTextAlignment(Qt::AlignCenter);
- 			QTableWidgetItem *zhongbaoyazhu_totol = new QTableWidgetItem(QString::number(tabel->item(3, 4)->text().toInt() + tabel->item(4, 4)->text().toInt() + tabel->item(5, 4)->text().toInt()));
+			QTableWidgetItem *zhongbaoyazhu_totol = new QTableWidgetItem(QString::number(tabel->item(3, 4)->text().toInt() + tabel->item(4, 4)->text().toInt() + tabel->item(5, 4)->text().toInt()));
 			zhongbaoyazhu_totol->setTextAlignment(Qt::AlignCenter);
- 			
- 			QTableWidgetItem *zhongbaoxuyaopeideqian_totol = new QTableWidgetItem(QString::number(tabel->item(3, 5)->text().toInt() + tabel->item(4, 5)->text().toInt() + tabel->item(5, 5)->text().toInt()));
+
+			QTableWidgetItem *zhongbaoxuyaopeideqian_totol = new QTableWidgetItem(QString::number(tabel->item(3, 5)->text().toInt() + tabel->item(4, 5)->text().toInt() + tabel->item(5, 5)->text().toInt()));
 			zhongbaoxuyaopeideqian_totol->setTextAlignment(Qt::AlignCenter);
- 			
+
 			QTableWidgetItem *heji_totol;
 			int heji_totol_int = tabel->item(3, 6)->text().toInt() + tabel->item(4, 6)->text().toInt() + tabel->item(5, 6)->text().toInt();
-			if (heji_totol_int>0)
+			if (heji_totol_int > 0)
 				heji_totol = new QTableWidgetItem(QStringLiteral("代理需付上家") + QString::number(heji_totol_int));
 			else
 				heji_totol = new QTableWidgetItem(QStringLiteral("上家需付代理") + QString::number(-heji_totol_int));
-			heji_totol->setBackgroundColor(QColor(106,168,79,200));
-			heji_totol->setFont(QFont("Microsoft YaHei",10, 30));
+			heji_totol->setBackgroundColor(QColor(106, 168, 79, 200));
+			heji_totol->setFont(QFont("Microsoft YaHei", 10, 30));
 			heji_totol->setForeground(QColor(255, 255, 0));
 			heji_totol->setTextAlignment(Qt::AlignCenter);
-			
+
 
 			tabel->setSpan(6, 0, 1, 2);
 			tabel->setItem(6, 0, hejichangci);
@@ -454,8 +441,59 @@ void DayTotolTable::on_change_date()
 			daili_view->setAttribute(Qt::WA_DeleteOnClose);
 		}
 	}
-
+	log += QStringLiteral("\n") + date  + QStringLiteral("统计完成！");
 	ui.label->setText(log);
 }
 
+void DayTotolTable::on_change_date()
+{
+	locals_info.clear();
+	kaibao_result.clear();
+	daili_profit.clear();
+	daili_session_profit.clear();
+	good_Profit.clear();
+	date.clear();
+	dir_path.clear();
+
+
+
+	dir_path = QFileDialog::getExistingDirectory(this, QStringLiteral("请选择日期文件夹..."), QApplication::applicationDirPath());
+	if (dir_path.isEmpty())
+	{
+		return;
+	}
+
+	ui.label_date_path->setText(dir_path);
+
+
+	if (!getUserSetting(dir_path, locals_info, kaibao_result, daili_profit, good_Profit,date))
+		return;
+
+	QDialog dlg(this);
+	dlg.setWindowTitle(QStringLiteral("设置代理场次系数"));
+	QGridLayout * layout = new QGridLayout(&dlg);
+	int daili_step = 0;
+	for (auto it = daili_profit.begin(); it != daili_profit.end(); ++it, ++daili_step)
+	{
+		layout->addWidget(new QLabel(it.key()), daili_step, 0);
+		for (int i = 0; i < 3; ++i)
+		{
+			QLineEdit* Edit = new QLineEdit(QString::number(it.value()));
+			QIntValidator* IntValidator = new QIntValidator;
+			IntValidator->setRange(-50, 50);
+			Edit->setValidator(IntValidator);
+			layout->addWidget(Edit, daili_step, i+1);
+		}
+	}
+
+	dlg.exec();
+ 	for (int i = 0; i < layout->rowCount(); ++i)
+ 	{
+		QString daili = ((QLabel*)(layout->itemAtPosition(i, 0)->widget()))->text();
+ 		for (int j = 0; j < 3; ++j)
+ 		{
+			daili_session_profit[daili][QString::number(j+1)+QStringLiteral("场")] = ((QLineEdit*)(layout->itemAtPosition(i, j+1)->widget()))->text().toInt();
+ 		}
+ 	}
+}
 

@@ -16,8 +16,22 @@ public:
 
 
 	bool getUserSetting(QString file_path, QMap<QString, QMap<QString, QMap<QString, DataInfo>>> &locals_info, QMap<QString, QVector<QString>> &kaibao_result, QMap<QString, double> &daili_profit, QMap<QString, double> &good_Profit, QString &date);
+
 	public slots:
 	void on_change_date();
+	void on_totol();
+
+
+
 private:
 	Ui::DayTotolTableClass ui;
+
+	// 场地 代理 场次
+	QMap<QString, QMap<QString, QMap<QString, DataInfo>>> locals_info;
+	QMap<QString, QVector<QString>> kaibao_result;
+	QMap<QString, double> daili_profit;
+	QMap<QString, QMap<QString, double>> daili_session_profit;
+	QMap<QString, double> good_Profit;
+	QString date;
+	QString dir_path;
 };

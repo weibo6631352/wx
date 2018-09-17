@@ -26,7 +26,14 @@
      <item>
       <widget class="QToolButton" name="toolButton_selete_datedir">
        <property name="text">
-        <string>...</string>
+        <string>选择文件夹</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButton">
+       <property name="text">
+        <string>统计</string>
        </property>
       </widget>
      </item>
@@ -53,8 +60,8 @@
    <slot>on_change_date()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>527</x>
-     <y>20</y>
+     <x>497</x>
+     <y>31</y>
     </hint>
     <hint type="destinationlabel">
      <x>605</x>
@@ -62,8 +69,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>toolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DayTotolTableClass</receiver>
+   <slot>on_totol()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>520</x>
+     <y>21</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>610</x>
+     <y>8</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_change_date()</slot>
+  <slot>on_totol()</slot>
  </slots>
 </ui>

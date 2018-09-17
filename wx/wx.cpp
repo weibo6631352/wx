@@ -222,17 +222,26 @@ void wx::on_datainput()
 	}
 	else
 	{
+		ui.tabWidget_dataInput->GetCurTabWidget()->setTextColor(QColor(0, 0, 0));
+		QTextDocument *document = ui.tabWidget_dataInput->GetCurTabWidget()->document();
+		QTextCursor highlight_cursor(document);
+		QTextCursor cursor(document);
 
-		QTextCursor cur = ui.tabWidget_dataInput->GetCurTabWidget()->textCursor();//返回当前光标对象
-		int err_label_index = input.indexOf(err_label);
-		if (err_label_index != -1)
-		{
-			cur.setPosition(input.indexOf(err_label), QTextCursor::MoveAnchor);//移到起始位置
-			cur.movePosition(QTextCursor::NoMove, QTextCursor::KeepAnchor, err_label_index + err_label.size());//移动结束位置
-			cur.select(QTextCursor::WordUnderCursor);//选择
-			ui.tabWidget_dataInput->GetCurTabWidget()->setTextCursor(cur);
-			ui.tabWidget_dataInput->SetFocus();
+		//开始
+		cursor.beginEditBlock();
+
+		QTextCharFormat color_format(highlight_cursor.charFormat());
+		
+		if (!highlight_cursor.isNull() && !highlight_cursor.atEnd()) {
+			//查找指定的文本，匹配整个单词
+			color_format.setForeground(Qt::red);
+			highlight_cursor = document->find(err_label, highlight_cursor,/* QTextDocument::FindWholeWords*/(QTextDocument::FindFlags)2);
+			if (!highlight_cursor.isNull()) {
+				highlight_cursor.mergeCharFormat(color_format);
+			}
 		}
+		cursor.endEditBlock();
+		//结束
 	}
 }
 

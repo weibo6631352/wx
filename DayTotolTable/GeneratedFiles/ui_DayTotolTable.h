@@ -29,6 +29,7 @@ public:
     QHBoxLayout *horizontalLayout;
     QLabel *label_date_path;
     QToolButton *toolButton_selete_datedir;
+    QToolButton *toolButton;
     QLabel *label;
 
     void setupUi(QWidget *DayTotolTableClass)
@@ -53,6 +54,11 @@ public:
 
         horizontalLayout->addWidget(toolButton_selete_datedir);
 
+        toolButton = new QToolButton(DayTotolTableClass);
+        toolButton->setObjectName(QStringLiteral("toolButton"));
+
+        horizontalLayout->addWidget(toolButton);
+
 
         verticalLayout->addLayout(horizontalLayout);
 
@@ -64,6 +70,7 @@ public:
 
         retranslateUi(DayTotolTableClass);
         QObject::connect(toolButton_selete_datedir, SIGNAL(clicked()), DayTotolTableClass, SLOT(on_change_date()));
+        QObject::connect(toolButton, SIGNAL(clicked()), DayTotolTableClass, SLOT(on_totol()));
 
         QMetaObject::connectSlotsByName(DayTotolTableClass);
     } // setupUi
@@ -72,7 +79,8 @@ public:
     {
         DayTotolTableClass->setWindowTitle(QApplication::translate("DayTotolTableClass", "\346\227\245\347\273\223\347\273\237\350\256\241", Q_NULLPTR));
         label_date_path->setText(QString());
-        toolButton_selete_datedir->setText(QApplication::translate("DayTotolTableClass", "...", Q_NULLPTR));
+        toolButton_selete_datedir->setText(QApplication::translate("DayTotolTableClass", "\351\200\211\346\213\251\346\226\207\344\273\266\345\244\271", Q_NULLPTR));
+        toolButton->setText(QApplication::translate("DayTotolTableClass", "\347\273\237\350\256\241", Q_NULLPTR));
         label->setText(QString());
     } // retranslateUi
 
