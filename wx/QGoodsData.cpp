@@ -98,7 +98,7 @@ bool QGoodsData::InputData(QString input, QString &err_label)
 			else
 			{
 				wxLogs->SetErrStr(QStringLiteral("已匹配到时间，但是代理名好像不对，已阻止录入!：") + line_str);
-				err_label = line_str;
+				err_label = iter;
 				return false;
 			}
 		}
@@ -146,7 +146,7 @@ bool QGoodsData::InputData(QString input, QString &err_label)
 				QStringList list = line_str.split(gegestr);
 				if (list.size() != 2)
 				{
-					err_label = line_str;
+					err_label = iter;
 					wxLogs->SetErrStr(QStringLiteral("不能识别：") + line_str);
 					return false;
 				}
@@ -161,7 +161,7 @@ bool QGoodsData::InputData(QString input, QString &err_label)
 			if (left.isEmpty() || ExtractNum(right).isEmpty())
 			{
 				wxLogs->SetErrStr(QStringLiteral("不能识别：") + line_str);
-				err_label = line_str;
+				err_label = iter;
 				return false;
 			}
 
@@ -188,7 +188,7 @@ bool QGoodsData::InputData(QString input, QString &err_label)
  					if (good_set.contains(name))
  					{
  						wxLogs->SetErrStr(QStringLiteral("重复的物品，请确认是否输重了：") + line_str);
-						err_label = line_str;
+						err_label = iter;
  						return false;
  					}
 					left.remove(pos, rx.matchedLength());
@@ -200,13 +200,13 @@ bool QGoodsData::InputData(QString input, QString &err_label)
 			if (!good_set.size())
 			{
 				wxLogs->SetErrStr(QStringLiteral("没有可识别的宝,或者有重复的宝：") + line_str);
-				err_label = line_str;
+				err_label = iter;
 				return false;
 			}
 			if (!left.remove(' ').remove('\t').remove('\n').isEmpty())
 			{
 				wxLogs->SetErrStr(QStringLiteral("不能识别或者是有重复的宝：") + left);
-				err_label = line_str;
+				err_label = iter;
 				return false;
 			}
 
@@ -230,7 +230,7 @@ bool QGoodsData::InputData(QString input, QString &err_label)
 			if (!sub_num.isEmpty())
 			{
 				wxLogs->SetErrStr(QStringLiteral("您输入的数量有误：") + right);
-				err_label = line_str;
+				err_label = iter;
 				return false;
 			}
 
@@ -263,7 +263,7 @@ bool QGoodsData::InputData(QString input, QString &err_label)
 			{
 				if (QMessageBox::No == QMessageBox::question(nullptr, goods + QStringLiteral("数量为0，请确认无误?"), goods + QStringLiteral("数量为0，请确认无误?"), QMessageBox::Yes, QMessageBox::No))
 				{
-					err_label = line_str;
+					err_label = iter;
 					return false;
 				}
 			}
@@ -277,7 +277,7 @@ bool QGoodsData::InputData(QString input, QString &err_label)
 			{
 				if (preAdd != curAdd)
 				{
-					err_label = line_str;
+					err_label = iter;
 					wxLogs->SetErrStr(QStringLiteral("限制同行内既有加又有减：") + goods);
 					return false;
 				}
@@ -308,7 +308,7 @@ bool QGoodsData::InputData(QString input, QString &err_label)
 				QString find_goods = wxSetting->GetRealNameByAlias(goods);
 				if (find_goods.isEmpty())
 				{
-					err_label = line_str;
+					err_label = iter;
 					wxLogs->SetErrStr(QStringLiteral("不能识别：") + goods);
 					return false;
 				}
@@ -328,7 +328,7 @@ bool QGoodsData::InputData(QString input, QString &err_label)
 		if (!residue.isEmpty())
 		{
 			if(tip_str.isEmpty())
-				err_label = residue;
+				err_label = iter;
 			tip_str = tip_str + residue + QStringLiteral("\n");
 		}
 		output_v.push_back(line_output);

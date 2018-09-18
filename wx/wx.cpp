@@ -225,22 +225,22 @@ void wx::on_datainput()
 		ui.tabWidget_dataInput->GetCurTabWidget()->setTextColor(QColor(0, 0, 0));
 		QTextDocument *document = ui.tabWidget_dataInput->GetCurTabWidget()->document();
 		QTextCursor highlight_cursor(document);
-		QTextCursor cursor(document);
+		//QTextCursor cursor(document);
 
 		//开始
-		cursor.beginEditBlock();
+		//cursor.beginEditBlock();
 
 		QTextCharFormat color_format(highlight_cursor.charFormat());
 		
 		if (!highlight_cursor.isNull() && !highlight_cursor.atEnd()) {
 			//查找指定的文本，匹配整个单词
 			color_format.setForeground(Qt::red);
-			highlight_cursor = document->find(err_label, highlight_cursor,/* QTextDocument::FindWholeWords*/(QTextDocument::FindFlags)2);
+			highlight_cursor = document->find(err_label, highlight_cursor);
 			if (!highlight_cursor.isNull()) {
 				highlight_cursor.mergeCharFormat(color_format);
 			}
 		}
-		cursor.endEditBlock();
+		//cursor.endEditBlock();
 		//结束
 	}
 }
