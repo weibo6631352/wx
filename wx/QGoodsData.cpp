@@ -325,7 +325,7 @@ bool QGoodsData::InputData(QString input, QString &err_label)
 		}
 
 
-		if (!residue.isEmpty())
+		if (!residue.remove(' ').isEmpty())
 		{
 			if(tip_str.isEmpty())
 				err_label = iter;
@@ -337,7 +337,7 @@ bool QGoodsData::InputData(QString input, QString &err_label)
 
 	if (!goods_totol.size())
 	{
-		wxLogs->SetErrStr(QStringLiteral("不能识别!"));
+		wxLogs->SetErrStr(QStringLiteral("没识别的宝!"));
 		return false;
 	}
 	if (!tip_str.remove(' ').remove('\t').remove('\n').isEmpty())
@@ -599,7 +599,7 @@ void QGoodsData::RevocationData(QString src_str, QString input)
 		}
 
 
-		if (!residue.isEmpty())
+		if (!residue.remove(' ').isEmpty())
 		{
 			tip_str = tip_str + residue + QStringLiteral("\n");
 		}
