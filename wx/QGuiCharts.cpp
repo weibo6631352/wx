@@ -44,6 +44,7 @@ QGuiCharts::QGuiCharts(QString user, QWidget *parent)
 	{
 		QTableWidgetItem * goods_item = new QTableWidgetItem(goods_v[i]);
 		QTableWidgetItem * yabao_limit_item = new QTableWidgetItem(QStringLiteral(""));
+		QTableWidgetItem * yabaoshuying_limit_item = new QTableWidgetItem(QStringLiteral(""));
 		QTableWidgetItem * winorlose = new QTableWidgetItem(QStringLiteral(""));
 		QProgressWidget *num_item = new QProgressWidget(ui.label_yabaolimit,this);
 
@@ -52,16 +53,20 @@ QGuiCharts::QGuiCharts(QString user, QWidget *parent)
 		//num_item->setFlags(Qt::ItemIsEnabled);
 		winorlose->setFlags(Qt::ItemIsEnabled);
 		yabao_limit_item->setFlags(Qt::ItemIsEnabled);
+		yabaoshuying_limit_item->setFlags(Qt::ItemIsEnabled);
 		goods_item->setTextAlignment(Qt::AlignCenter);
 		winorlose->setTextAlignment(Qt::AlignCenter);
 		yabao_limit_item->setTextAlignment(Qt::AlignCenter);
 		yabao_limit_item->setForeground(QBrush(QColor(255, 0, 0)));
+		yabaoshuying_limit_item->setTextAlignment(Qt::AlignCenter);
+		yabaoshuying_limit_item->setForeground(QBrush(QColor(255, 0, 0)));
 
 		ui.tableWidget_totol->setItem(i, 0, goods_item);
 		//		ui.tableWidget_totol->setItem(i, 1, num_item);
 		ui.tableWidget_totol->setCellWidget(i, 1, num_item);
 		ui.tableWidget_winorlose->setItem(i, 0, winorlose);
 		ui.tableWidget_yabaolimit->setItem(i, 0, yabao_limit_item);
+		ui.tableWidget_yabaoshuyinglimit->setItem(i, 0, yabaoshuying_limit_item);
 	}
 
 
@@ -69,9 +74,9 @@ QGuiCharts::QGuiCharts(QString user, QWidget *parent)
 	InitStyle();
 	//填数据
 	ui.label_yabaolimit->setValidator(new QIntValidator(ui.label_yabaolimit));
-	connect(ui.label_yabaolimit, &QLineEdit::textChanged, [this]() {
-		UpdateCharts();
-	});
+	connect(ui.label_yabaolimit, &QLineEdit::textChanged, [this]() {UpdateCharts();});
+	ui.label_yabaoshuyinglimit->setValidator(new QIntValidator(ui.label_yabaoshuyinglimit));
+	connect(ui.label_yabaoshuyinglimit, &QLineEdit::textChanged, [this]() {UpdateCharts(); });
 	UpdateCharts();
 }
 
@@ -89,6 +94,7 @@ void QGuiCharts::InitStyle()
 	ui.tableWidget_totol->setStyleSheet(QStringLiteral("background-color:rgba(0,0,0,0)"));
 	ui.tableWidget_winorlose->setStyleSheet(QStringLiteral("background-color:rgba(0,0,0,0)"));
 	ui.tableWidget_yabaolimit->setStyleSheet(QStringLiteral("background-color:rgba(0,0,0,0)"));
+	ui.tableWidget_yabaoshuyinglimit->setStyleSheet(QStringLiteral("background-color:rgba(0,0,0,0)"));
 
 	QImage _image;
 	_image.load(QApplication::applicationDirPath() + (QStringLiteral("/bg.jpg")));
@@ -129,6 +135,7 @@ void QGuiCharts::UpdateCharts()
 	const QVector<QString> good_set = QwxSetting::ins()->GetGoodsSet();
 	const QMap<QString, double> goods_profit = QwxSetting::ins()->GetGoodsProfitMap();
 	int yabao_limit = ui.label_yabaolimit->text().toInt();
+	int yabaos_shuyinglimit = ui.label_yabaoshuyinglimit->text().toInt();
 	ui.label_yabaolimit->setText(QString::number(yabao_limit));
 
 	if (user_ == QStringLiteral("总计"))
@@ -184,13 +191,16 @@ void QGuiCharts::UpdateCharts()
 	for (int i = 0; i < sort_goods.size(); ++i)
 	{
 		QString goods = sort_goods[i].goods;
+		double gfit = goods_profit[goods];
 		int goods_num = sort_goods[i].num;
 		int winorlose_num = sort_goods[i].winorlose;
+		int goods_shuying_num = winorlose_num;
 
 		QTableWidgetItem * goods_item = ui.tableWidget_totol->item(i, 0);
 		QProgressWidget * num_item = (QProgressWidget*)ui.tableWidget_totol->cellWidget(i, 1);
 		QTableWidgetItem * winorlose = ui.tableWidget_winorlose->item(i, 0);
 		QTableWidgetItem * yabao_limit_item = ui.tableWidget_yabaolimit->item(i, 0);
+		QTableWidgetItem * yabao_shuyinglimit_item = ui.tableWidget_yabaoshuyinglimit->item(i, 0);
 
 		if (winorlose_num < 0)
 			winorlose->setForeground(QBrush(QColor(255, 0, 0)));
@@ -210,6 +220,15 @@ void QGuiCharts::UpdateCharts()
 		else
 		{
 			yabao_limit_item->setText(QStringLiteral(""));
+		}
+		int yabao_shuyingovertop = goods_shuying_num + yabaos_shuyinglimit;
+		if (yabao_shuyingovertop < 0)
+		{
+			yabao_shuyinglimit_item->setText(QString::number((int)(data->totols_*(1.0 - data->profit_*0.01) - (yabao_shuyingovertop)) / (int)gfit));
+		}
+		else
+		{
+			yabao_shuyinglimit_item->setText(QStringLiteral(""));
 		}
 	}
 	update();
