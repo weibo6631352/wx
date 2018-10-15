@@ -224,7 +224,8 @@ void QGuiCharts::UpdateCharts()
 		int yabao_shuyingovertop = goods_shuying_num + yabaos_shuyinglimit;
 		if (yabao_shuyingovertop < 0)
 		{
-			yabao_shuyinglimit_item->setText(QString::number((int)(data->totols_*(1.0 - data->profit_*0.01) - (yabao_shuyingovertop)) / (int)gfit));
+			//yabao_shuyinglimit_item->setText(QString::number((int)(data->totols_*(1.0 - data->profit_*0.01) - (yabao_shuyingovertop)) / (int)gfit));
+			yabao_shuyinglimit_item->setText(QString::number(std::abs(yabao_shuyingovertop / (int)gfit)));
 		}
 		else
 		{

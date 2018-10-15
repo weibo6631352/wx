@@ -120,23 +120,20 @@ color: rgb(0, 0, 0);</string>
        </layout>
       </item>
       <item>
-       <widget class="QFrame" name="frame_7">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
-        <property name="frameShape">
-         <enum>QFrame::HLine</enum>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>1</height>
+         </size>
         </property>
-        <property name="lineWidth">
-         <number>1</number>
-        </property>
-        <property name="midLineWidth">
-         <number>0</number>
-        </property>
-       </widget>
+       </spacer>
       </item>
       <item>
        <widget class="QTableWidget" name="tableWidget_yabaolimit">
@@ -360,23 +357,20 @@ color: rgb(0, 0, 0);</string>
        </layout>
       </item>
       <item>
-       <widget class="QFrame" name="frame_10">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
-        <property name="frameShape">
-         <enum>QFrame::HLine</enum>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>1</height>
+         </size>
         </property>
-        <property name="lineWidth">
-         <number>1</number>
-        </property>
-        <property name="midLineWidth">
-         <number>0</number>
-        </property>
-       </widget>
+       </spacer>
       </item>
       <item>
        <widget class="QTableWidget" name="tableWidget_yabaoshuyinglimit">
