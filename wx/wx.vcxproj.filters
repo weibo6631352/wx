@@ -111,6 +111,9 @@
     <ClCompile Include="QProgressWidget.cpp">
       <Filter>Source Files\UiWidget</Filter>
     </ClCompile>
+    <ClCompile Include="SHA1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="wx.h">
@@ -189,6 +192,9 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_QWxLogin.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SHA1.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

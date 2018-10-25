@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'QDayView.ui'
 **
-** Created by: Qt User Interface Compiler version 5.8.0
+** Created by: Qt User Interface Compiler version 5.11.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,9 +10,7 @@
 #define UI_QDAYVIEW_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QTableWidget>
@@ -85,7 +83,7 @@ public:
 
     void retranslateUi(QWidget *QDayView)
     {
-        QDayView->setWindowTitle(QApplication::translate("QDayView", "QDayView", Q_NULLPTR));
+        QDayView->setWindowTitle(QApplication::translate("QDayView", "QDayView", nullptr));
     } // retranslateUi
 
 };

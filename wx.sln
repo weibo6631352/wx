@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DesolateTotol", "DesolateTotol\DesolateTotol.vcxproj", "{DF6C560E-B971-45B5-A61A-27937F585FC5}"
 EndProject
@@ -10,6 +10,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wx", "wx\wx.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DayTotolTable", "DayTotolTable\DayTotolTable.vcxproj", "{FD2321FA-3C02-4313-B523-54E89DA7BB58}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jiqima", "jiqima\jiqima.vcxproj", "{1B985AF8-096A-4EAD-9110-10D6A650C4BD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shouquan", "shouquan\shouquan.vcxproj", "{5F5E92E5-FA7C-424C-AA28-CABB588D1AE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,18 @@ Global
 		{FD2321FA-3C02-4313-B523-54E89DA7BB58}.Release|x64.ActiveCfg = Release|x64
 		{FD2321FA-3C02-4313-B523-54E89DA7BB58}.Release|x64.Build.0 = Release|x64
 		{FD2321FA-3C02-4313-B523-54E89DA7BB58}.Release|x86.ActiveCfg = Release|x64
+		{1B985AF8-096A-4EAD-9110-10D6A650C4BD}.Debug|x64.ActiveCfg = Debug|x64
+		{1B985AF8-096A-4EAD-9110-10D6A650C4BD}.Debug|x64.Build.0 = Debug|x64
+		{1B985AF8-096A-4EAD-9110-10D6A650C4BD}.Debug|x86.ActiveCfg = Debug|x64
+		{1B985AF8-096A-4EAD-9110-10D6A650C4BD}.Release|x64.ActiveCfg = Release|x64
+		{1B985AF8-096A-4EAD-9110-10D6A650C4BD}.Release|x64.Build.0 = Release|x64
+		{1B985AF8-096A-4EAD-9110-10D6A650C4BD}.Release|x86.ActiveCfg = Release|x64
+		{5F5E92E5-FA7C-424C-AA28-CABB588D1AE2}.Debug|x64.ActiveCfg = Debug|x64
+		{5F5E92E5-FA7C-424C-AA28-CABB588D1AE2}.Debug|x64.Build.0 = Debug|x64
+		{5F5E92E5-FA7C-424C-AA28-CABB588D1AE2}.Debug|x86.ActiveCfg = Debug|x64
+		{5F5E92E5-FA7C-424C-AA28-CABB588D1AE2}.Release|x64.ActiveCfg = Release|x64
+		{5F5E92E5-FA7C-424C-AA28-CABB588D1AE2}.Release|x64.Build.0 = Release|x64
+		{5F5E92E5-FA7C-424C-AA28-CABB588D1AE2}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

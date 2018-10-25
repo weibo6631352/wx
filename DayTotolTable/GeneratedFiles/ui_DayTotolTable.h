@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'DayTotolTable.ui'
 **
-** Created by: Qt User Interface Compiler version 5.8.0
+** Created by: Qt User Interface Compiler version 5.11.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,11 +10,8 @@
 #define UI_DAYTOTOLTABLE_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
@@ -77,10 +74,10 @@ public:
 
     void retranslateUi(QWidget *DayTotolTableClass)
     {
-        DayTotolTableClass->setWindowTitle(QApplication::translate("DayTotolTableClass", "\346\227\245\347\273\223\347\273\237\350\256\241", Q_NULLPTR));
+        DayTotolTableClass->setWindowTitle(QApplication::translate("DayTotolTableClass", "\346\227\245\347\273\223\347\273\237\350\256\241", nullptr));
         label_date_path->setText(QString());
-        toolButton_selete_datedir->setText(QApplication::translate("DayTotolTableClass", "\351\200\211\346\213\251\346\226\207\344\273\266\345\244\271", Q_NULLPTR));
-        toolButton->setText(QApplication::translate("DayTotolTableClass", "\347\273\237\350\256\241", Q_NULLPTR));
+        toolButton_selete_datedir->setText(QApplication::translate("DayTotolTableClass", "\351\200\211\346\213\251\346\226\207\344\273\266\345\244\271", nullptr));
+        toolButton->setText(QApplication::translate("DayTotolTableClass", "\347\273\237\350\256\241", nullptr));
         label->setText(QString());
     } // retranslateUi
 
