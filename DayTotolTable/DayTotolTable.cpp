@@ -64,9 +64,9 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
 {
 	std::vector<QString> locals;
 	QString app_path = QApplication::applicationDirPath();
-	QDir dir(file_path);
-	dir.setFilter(QDir::Dirs);
-	QString datename = dir.dirName();
+	QDir local_dir(file_path);
+	local_dir.setFilter(QDir::Dirs);
+	QString datename = local_dir.dirName();
 
 	int year;
 	int month;
@@ -74,27 +74,29 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
 	sscanf(datename.toLocal8Bit().data(), "%d-%d-%d", &year, &month, &day);
 	date = datename;
 	// locals_info
-	foreach(QFileInfo localDir, dir.entryInfoList())
+	foreach(QFileInfo localDir, local_dir.entryInfoList())
 	{
 		if (localDir.fileName() == "." || localDir.fileName() == "..") continue;
 		QString local_folder = localDir.absoluteFilePath();
-		dir.setPath(local_folder);
-		foreach(QFileInfo sessionDir, dir.entryInfoList())
+		QDir session_dir(local_folder);
+		session_dir.setFilter(QDir::Dirs);
+		foreach(QFileInfo sessionDir, session_dir.entryInfoList())
 		{
 			if (sessionDir.fileName() == "." || sessionDir.fileName() == "..") continue;
 			QString session_folder = sessionDir.absoluteFilePath();
-			dir.setPath(session_folder);
-			foreach(QFileInfo dailiDir, dir.entryInfoList())
+			QDir session_dir(session_folder);
+			session_dir.setFilter(QDir::Dirs);
+			foreach(QFileInfo dailiDir, session_dir.entryInfoList())
 			{
 				if (dailiDir.fileName() == "." || dailiDir.fileName() == ".." || dailiDir.fileName() == QStringLiteral("×Ü¼Æ")) continue;
 				QString daili_folder = dailiDir.absoluteFilePath();
 
-				dir.setPath(daili_folder);
-				dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
-				dir.setSorting(QDir::Name | QDir::Reversed);
+				QDir daili_dir(daili_folder);
+				daili_dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
+				daili_dir.setSorting(QDir::Name | QDir::Reversed);
 				QStringList filter;
 				filter << "*.txt";
-				QFileInfoList files = dir.entryInfoList(filter, QDir::Files);
+				QFileInfoList files = daili_dir.entryInfoList(filter, QDir::Files);
 				
 				if (files.size() < 1)
 					continue;
