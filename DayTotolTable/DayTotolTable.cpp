@@ -7,6 +7,12 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QLineEdit>
+#include <QJsonDocument>
+#include <QJsonObject> 
+#include <QJsonArray>
+#include <QDebug> 
+#include <QTabWidget>
+#include <QHBoxLayout>
 
 DayTotolTable::DayTotolTable(QWidget *parent)
 	: QWidget(parent)
@@ -52,7 +58,7 @@ QString ExtractNum(QString &str)
 
 bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString, QMap<QString, DataInfo>>> &locals_info
 	, QMap<QString, QVector<QString>> &kaibao_result
-	, QMap<QString, double> &daili_profit
+    , QMap<QString, QMap<QString, QMap<QString, double>>> &daili_session_profit
 	, QMap<QString, double> &good_Profit
 	, QString &date)
 {
@@ -118,29 +124,81 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
 	}
 
 
-	//daili_profit
-	QFile f;
-	QString lineStr;
-	// 代理系数
-	f.setFileName(app_path + QStringLiteral("/agencyProfit.ini"));
-	if (f.open(QIODevice::ReadOnly | QIODevice::Text))
-	{
-		QTextStream txtInput(&f);
-		txtInput.setCodec("UTF-8"); //请注意这行
+ 	//daili_profit
+ 	QFile f;
+ 	QString lineStr;
+ 	// 代理系数
+ 	f.setFileName(app_path + QStringLiteral("/agencyProfit.ini"));
+ 	if (f.open(QIODevice::ReadOnly | QIODevice::Text))
+ 	{
+ 		QTextStream txtInput(&f);
+ 		txtInput.setCodec("UTF-8"); //请注意这行
+ 
+ 		while (!txtInput.atEnd())
+ 		{
+ 			lineStr = txtInput.readLine();
+ 
+ 			QSet<QString> split_set;
+ 			QStringList str_list = lineStr.split(QStringLiteral("="));
+ 			if (str_list.size() == 2)
+ 			{
+ 				daili_profit[str_list[0]] = str_list[1].toDouble();
+ 			}
+ 		}
+ 		f.close();
+ 	}
+    else
+    {
+        QMessageBox::information(this, QStringLiteral("加载失败"), QStringLiteral("agencyProfit.ini读取失败"), 0);
+        return false;
+    }
 
-		while (!txtInput.atEnd())
-		{
-			lineStr = txtInput.readLine();
+    QByteArray json; // json 的内容
+    QFile file(app_path + QStringLiteral("/代理场地场次系数.json")); // Json 的文件
+    
+    // [1] 读取 Json 文件内容
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        json = file.readAll();
+    }
+    else {
+        QMessageBox::information(this, QStringLiteral("加载失败"), QStringLiteral("代理场地场次系数.json"), 0);
+        return false;
+    }
+    QJsonParseError jsonError;
+    QJsonDocument doucment = QJsonDocument::fromJson(json, &jsonError);
+    file.close();
 
-			QSet<QString> split_set;
-			QStringList str_list = lineStr.split(QStringLiteral("="));
-			if (str_list.size() == 2)
-			{
-				daili_profit[str_list[0]] = str_list[1].toDouble();
-			}
-		}
-		f.close();
-	}
+    if (!doucment.isNull() && (jsonError.error == QJsonParseError::NoError))
+    {
+        QJsonArray array = doucment.array();
+        int nSize = array.size();
+        for (int i = 0; i < nSize; ++i)
+        {
+            QJsonObject changdi = array.at(i).toObject();
+            QJsonObject changci_array = changdi.value(QStringLiteral("场次")).toObject();
+            QStringList changci_keys = changci_array.keys();
+            for (int j = 0; j < changci_keys.size(); ++j)
+            {
+                QString changci_key = changci_keys[j];
+                QJsonObject daili_array = changci_array.value(changci_key).toObject();
+
+                QStringList daili_keys = daili_array.keys();
+                for (int j = 0; j < daili_keys.size(); ++j)
+                {
+                    QString daili_key = daili_keys[j];
+                    double daili_xishu = daili_array.value(daili_key).toDouble();
+                    daili_session_profit[changdi.value(QStringLiteral("场地")).toString()]
+                        [changci_key][daili_key] = daili_xishu;
+                }
+            }
+        }
+    }
+    else
+    {
+        QMessageBox::information(this, QStringLiteral("加载失败"), QStringLiteral("代理场地场次系数.json"), 0);
+        return false;
+    }
+   
 
 
  	for (int i = 0; i < locals.size(); ++i)
@@ -181,9 +239,9 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
 					{
 						QStringList good_list = strList[1].split(QStringLiteral(","));
 						QVector<QString> goods_v;
-						for (int i = 0; i < good_list.count(); ++i)
+						for (int j = 0; j < good_list.count(); ++j)
 						{
-							goods_v.push_back(good_list[i]);
+							goods_v.push_back(good_list[j]);
 						}
 						kaibao_result[locals[i]] = goods_v;
 						break;
@@ -235,27 +293,38 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
 	return true;
 }
 
-void DayTotolTable::on_totol()
+void DayTotolTable::totol()
 {
 	QString log;
 	// 遍历场地
+
+    QTabWidget *changdi_tab_widget = new QTabWidget();
+    changdi_tab_widget->setAttribute(Qt::WA_DeleteOnClose);
+    changdi_tab_widget->setWindowTitle(QStringLiteral("日结报表"));
+    changdi_tab_widget->resize(QSize(785,390));
 	for (auto local_it = locals_info.begin(); local_it != locals_info.end(); ++local_it)
 	{
-		QString local_name = local_it.key();
+        QString local_name = local_it.key();  // 场地名
+        QTabWidget *daili_tab_widget = new QTabWidget(changdi_tab_widget);
+        changdi_tab_widget->addTab(daili_tab_widget, local_name);
+
+        // 遍历代理
 		for (auto daili_it = local_it.value().begin(); daili_it != local_it.value().end(); ++daili_it)
 		{
 			QString daili_name = daili_it.key();
+
 			if (!daili_it.value().size())
 			{
 				log += QStringLiteral("\n") + local_name + daili_name + QStringLiteral("场次为空");
 				continue;
 			}
 
+            // 代理系数
 			double dailifit = daili_profit.find(daili_name) != daili_profit.end() ?
 				daili_profit[daili_name] : daili_profit[QStringLiteral("默认")];
 
-
-			QDayView *daili_view = new QDayView;
+            QDayView *daili_view = new QDayView(daili_tab_widget);
+            daili_tab_widget->addTab(daili_view, daili_name);
 			QTableWidget* tabel = daili_view->getTable();
 			QFont head_font(daili_view->font());
 			head_font.setPixelSize(22);
@@ -284,7 +353,7 @@ void DayTotolTable::on_totol()
 			dailiren->setForeground(QColor(222, 222, 222));
 			dailiren->setFont(head_font);
 			dailiren->setTextAlignment(Qt::AlignCenter);
-			QTableWidgetItem *dailiren_value = new QTableWidgetItem(daili_name + "-" + local_name + "-" + QString::number(dailifit) + "%");
+			QTableWidgetItem *dailiren_value = new QTableWidgetItem();
 			dailiren_value->setBackground(QColor(128, 128, 128, 180));
 			dailiren_value->setForeground(QColor(222, 222, 222));
 			dailiren_value->setFont(head_font);
@@ -361,9 +430,10 @@ void DayTotolTable::on_totol()
 			}
 
 			int session_size = 0;
+            double dailifit_session = 0;
 			for (auto session_it = daili_it.value().begin(); session_it != daili_it.value().end(); ++session_it)
 			{
-				QString session_str = session_it.key();
+                QString session_str = session_it.key();
 				int session_int = ExtractNum(session_str).toInt();
 				int row = 2 + session_int;
 				if (kaibao_result[local_name].size() < session_int)
@@ -382,9 +452,9 @@ void DayTotolTable::on_totol()
 					yazhuzonge_int += data_it->second;
 				}
 
-				double dailifit_session = daili_session_profit[daili_name].find(session_str) != daili_session_profit[daili_name].end() ?
-					daili_session_profit[daili_name][session_str] : daili_profit[QStringLiteral("默认")];
-
+                dailifit_session = daili_session_profit[local_name][daili_name].find(QString(session_str).remove(QStringLiteral("场"))) != daili_session_profit[local_name][daili_name].end() ?
+                    daili_session_profit[local_name][daili_name][QString(session_str).remove(QStringLiteral("场"))] : daili_profit[QStringLiteral("默认")];
+                log += QStringLiteral("\n") + local_name + daili_name + session_str + QStringLiteral("代理系数配置为空, 系统使用的是默认代理系数!");
 				int dailifei_int = yazhuzonge_int*dailifit_session / 100.0;
 				QString zongyazhue_str = QString::number(yazhuzonge_int);
 				int zhongbaoxuyaopeideqian_int = data[kaibao_str] * good_Profit[kaibao_str];
@@ -396,6 +466,7 @@ void DayTotolTable::on_totol()
 				tabel->item(row, 5)->setText(QString::number(zhongbaoxuyaopeideqian_int));
 				tabel->item(row, 6)->setText(QString::number(yazhuzonge_int - dailifei_int - zhongbaoxuyaopeideqian_int));
 			}
+            dailiren_value->setText(daili_name + "-" + local_name + "-" + QString::number(dailifit_session) + "%");
 			int yazhuzonge_int = tabel->item(3, 2)->text().toInt() + tabel->item(4, 2)->text().toInt() + tabel->item(5, 2)->text().toInt();
 
 
@@ -437,10 +508,10 @@ void DayTotolTable::on_totol()
 			tabel->setItem(7, 0, guanggao);
 
 			tabel->resizeRowsToContents();
-			daili_view->show();
-			daili_view->setAttribute(Qt::WA_DeleteOnClose);
+			
 		}
 	}
+    changdi_tab_widget->show();
 	log += QStringLiteral("\n") + date  + QStringLiteral("统计完成！");
 	ui.label->setText(log);
 }
@@ -456,8 +527,11 @@ void DayTotolTable::on_change_date()
 	dir_path.clear();
 
 
+    dir_path = QApplication::applicationDirPath() + QStringLiteral("\\导出");
+    if (!QDir(dir_path).exists())
+        dir_path = QApplication::applicationDirPath();
+    dir_path = QFileDialog::getExistingDirectory(this, QStringLiteral("请选择日期文件夹..."), dir_path);
 
-	dir_path = QFileDialog::getExistingDirectory(this, QStringLiteral("请选择日期文件夹..."), QApplication::applicationDirPath());
 	if (dir_path.isEmpty())
 	{
 		return;
@@ -466,34 +540,36 @@ void DayTotolTable::on_change_date()
 	ui.label_date_path->setText(dir_path);
 
 
-	if (!getUserSetting(dir_path, locals_info, kaibao_result, daili_profit, good_Profit,date))
+    if (!getUserSetting(dir_path, locals_info, kaibao_result, daili_session_profit, good_Profit, date))
 		return;
 
-	QDialog dlg(this);
-	dlg.setWindowTitle(QStringLiteral("设置代理场次系数"));
-	QGridLayout * layout = new QGridLayout(&dlg);
-	int daili_step = 0;
-	for (auto it = daili_profit.begin(); it != daili_profit.end(); ++it, ++daili_step)
-	{
-		layout->addWidget(new QLabel(it.key()), daili_step, 0);
-		for (int i = 0; i < 3; ++i)
-		{
-			QLineEdit* Edit = new QLineEdit(QString::number(it.value()));
-			QIntValidator* IntValidator = new QIntValidator;
-			IntValidator->setRange(-50, 50);
-			Edit->setValidator(IntValidator);
-			layout->addWidget(Edit, daili_step, i+1);
-		}
-	}
+    totol();
 
-	dlg.exec();
- 	for (int i = 0; i < layout->rowCount(); ++i)
- 	{
-		QString daili = ((QLabel*)(layout->itemAtPosition(i, 0)->widget()))->text();
- 		for (int j = 0; j < 3; ++j)
- 		{
-			daili_session_profit[daili][QString::number(j+1)+QStringLiteral("场")] = ((QLineEdit*)(layout->itemAtPosition(i, j+1)->widget()))->text().toInt();
- 		}
- 	}
+// 	QDialog dlg(this);
+// 	dlg.setWindowTitle(QStringLiteral("设置代理场次系数"));
+// 	QGridLayout * layout = new QGridLayout(&dlg);
+// 	int daili_step = 0;
+// 	for (auto it = daili_profit.begin(); it != daili_profit.end(); ++it, ++daili_step)
+// 	{
+// 		layout->addWidget(new QLabel(it.key()), daili_step, 0);
+// 		for (int i = 0; i < 3; ++i)
+// 		{
+// 			QLineEdit* Edit = new QLineEdit(QString::number(it.value()));
+// 			QIntValidator* IntValidator = new QIntValidator;
+// 			IntValidator->setRange(-50, 50);
+// 			Edit->setValidator(IntValidator);
+// 			layout->addWidget(Edit, daili_step, i+1);
+// 		}
+// 	}
+// 
+// 	dlg.exec();
+//  	for (int i = 0; i < layout->rowCount(); ++i)
+//  	{
+// 		QString daili = ((QLabel*)(layout->itemAtPosition(i, 0)->widget()))->text();
+//  		for (int j = 0; j < 3; ++j)
+//  		{
+// 			daili_session_profit[daili][QString::number(j+1)+QStringLiteral("场")] = ((QLineEdit*)(layout->itemAtPosition(i, j+1)->widget()))->text().toInt();
+//  		}
+//  	}
 }
 
