@@ -39,10 +39,12 @@ class QDayView : public QWidget
 public:
 	QDayView(QWidget *parent = Q_NULLPTR);
 	QTableWidget *tablewidget;
-	virtual void paintEvent(QPaintEvent *event) override;
+    virtual void paintEvent(QPaintEvent *event) override;
 	~QDayView();
 
 	QTableWidget* getTable();
+    void ScreenShot();
+
 private:
 	Ui::QDayView ui;
 	QTableWidget * table;

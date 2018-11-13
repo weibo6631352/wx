@@ -308,6 +308,9 @@ void DayTotolTable::totol()
 	{
         QString local_name = local_it.key();  // 场地名
         QTabWidget *daili_tab_widget = new QTabWidget(changdi_tab_widget);
+        connect(daili_tab_widget, &QTabWidget::tabBarClicked, [=](int index){
+            ((QDayView *)daili_tab_widget->widget(index))->ScreenShot();
+        });
         changdi_tab_widget->addTab(daili_tab_widget, local_name);
 
         // 遍历代理
