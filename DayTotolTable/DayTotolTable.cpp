@@ -302,7 +302,7 @@ void DayTotolTable::totol()
 
     QTabWidget *changdi_tab_widget = new QTabWidget();
     changdi_tab_widget->setAttribute(Qt::WA_DeleteOnClose);
-    changdi_tab_widget->setWindowTitle(QStringLiteral("日结报表"));
+    changdi_tab_widget->setWindowTitle(QStringLiteral("日结报表——点击代理标签完成即可截图"));
     changdi_tab_widget->resize(QSize(785,390));
 	for (auto local_it = locals_info.begin(); local_it != locals_info.end(); ++local_it)
 	{
