@@ -250,9 +250,9 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
    
 
 
- 	for (int i = 0; i < locals.size(); ++i)
- 	{
- 		QString local_result_path = app_path + "/" + locals[i] + ".txt";
+ 	//for (int i = 0; i < locals.size(); ++i)
+ 	//{
+ 		QString local_result_path = app_path + QStringLiteral("/开宝结果.txt");
  		f.setFileName(local_result_path);
  		if (f.open(QIODevice::ReadOnly | QIODevice::Text))
  		{
@@ -292,7 +292,7 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
 						{
 							goods_v.push_back(good_list[j]);
 						}
-						kaibao_result[locals[i]] = goods_v;
+						kaibao_result[QStringLiteral("开宝结果")] = goods_v;
 						break;
 					}
  				}
@@ -310,8 +310,7 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
  			QMessageBox::warning(nullptr, QStringLiteral("警告"), local_result_path + QStringLiteral("打开失败!"));
  			return false;
  		}
- 			
- 	}
+ 	//}
 
 
 
@@ -484,14 +483,14 @@ void DayTotolTable::totol()
                 QString session_str = session_it.key();
 				int session_int = ExtractNum(session_str).toInt();
 				int row = 2 + session_int;
-				if (kaibao_result[local_name].size() < session_int)
+				if (kaibao_result[QStringLiteral("开宝结果")].size() < session_int)
 				{
 					log += QStringLiteral("\n") + date + local_name
 						+ session_str + QStringLiteral("未设置开宝物品");
 					continue;
 				}
 				session_size++;
-				QString kaibao_str = kaibao_result[local_name][session_int - 1];
+				QString kaibao_str = kaibao_result[QStringLiteral("开宝结果")][session_int - 1];
 
 				std::map<QString, int>& data = locals_info[local_name][daili_name][session_str].data;
 				int yazhuzonge_int = 0;
