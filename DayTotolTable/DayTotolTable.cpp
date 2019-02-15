@@ -381,7 +381,7 @@ void DayTotolTable::totol()
 			tabel->setFont(nomal_font);
 
 
-			QTableWidgetItem *biaoti = new QTableWidgetItem(QStringLiteral("广告：字花账务请加微信 Azhangzihua"));
+			QTableWidgetItem *biaoti = new QTableWidgetItem(QStringLiteral("字花账务请加微信 Azhangzihua"));
 			biaoti->setBackground(QColor(128, 128, 128, 180));
 			biaoti->setForeground(QColor(222, 222, 222));
 			biaoti->setFont(head_font);
@@ -565,7 +565,7 @@ void DayTotolTable::totol()
 			totol_font.setUnderline(true);
 			totol_font.setBold(true);
 
-			heji_totol->setBackgroundColor(QColor(106, 168, 79, 200));
+			//heji_totol->setBackgroundColor(QColor(106, 168, 79, 200));
 			heji_totol->setFont(totol_font);
 			heji_totol->setTextAlignment(Qt::AlignCenter);
 
@@ -579,10 +579,22 @@ void DayTotolTable::totol()
 			tabel->setItem(6, 6, heji_totol);
 
 			tabel->setSpan(7, 0, 1, tabel->columnCount());
-			QTableWidgetItem *guanggao = new QTableWidgetItem(QStringLiteral("（右下角数字黑色代理付上家，红色上家付代理）"));
-			guanggao->setForeground(QColor(Qt::red));
-			guanggao->setTextAlignment(Qt::AlignCenter);
-			tabel->setItem(7, 0, guanggao);
+
+			//QTableWidgetItem *guanggao = new QTableWidgetItem(QStringLiteral("（右下角数字黑色代理付上家，红色上家付代理）"));
+			//guanggao->setForeground(QColor(Qt::red));
+			//guanggao->setTextAlignment(Qt::AlignCenter);
+			//tabel->setItem(7, 0, guanggao);
+			QWidget *guanggao = new QWidget;
+			QHBoxLayout *wlayout = new QHBoxLayout(guanggao);
+			wlayout->addSpacerItem(new QSpacerItem(40,20,QSizePolicy::Expanding));
+			QLabel *stafield = new QLabel(QStringLiteral("<font color=black>（右下角数字黑色代理付上家，</font>"));
+			QLabel *endfield = new QLabel(QStringLiteral("<font color=red>红色上家付代理）</font>"));
+			wlayout->addWidget(stafield);
+			wlayout->addWidget(endfield);
+			wlayout->setSpacing(0);
+			wlayout->setContentsMargins(0, 0, 0, 0);
+			guanggao->setFont(QFont("Microsoft YaHei", 18, 100));
+			tabel->setCellWidget(7, 0, guanggao);
 
 			tabel->resizeRowsToContents();
 			
