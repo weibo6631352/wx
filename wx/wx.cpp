@@ -22,6 +22,7 @@
 #include "QwxLog.h"
 #include "QwxData.h"
 #include "QGuiCharts.h"
+#include <QFileDialog>
 
 class QDelBtnDelData :public QObjectUserData
 {
@@ -47,7 +48,7 @@ wx::wx(QWidget *parent)
 	ui.setupUi(this);
 	InitStyle();
 
-	InitUi();
+	UpdateTitle();
 	setWindowFlags(windowFlags()| Qt::WindowMinMaxButtonsHint);
 	
 	view_port_ = new QGuiViewport(this);
@@ -118,7 +119,7 @@ void wx::InitStyle()
 	CommonHelper::setStyle(this, QApplication::applicationDirPath() + QStringLiteral("/wxmain.qss"));
 }
 
-void wx::InitUi()
+void wx::UpdateTitle()
 {
 	this->setWindowTitle(QwxSetting::ins()->title_ + QwxSetting::ins()->date_ + QwxSetting::ins()->session_+ QStringLiteral("场"));
 }
@@ -142,16 +143,13 @@ void wx::on_tabinputtextEdit()
 	ui.tabWidget_dataInput->setCurrentIndex(tab_index - 1);
 }
 
-void wx::on_addUser()
+void wx::addUser(QString user, QString session, QString date)
 {
-	QString user = ui.lineEdit_setuser->text();
-	QString session = QwxSetting::ins()->session_;
-	QString date = QwxSetting::ins()->date_;
- 	if (user.isEmpty() || session.isEmpty() || -1!=ui.tabWidget_dataInput->GetIndexFromTabText(user))
- 	{
- 		QMessageBox::information(this, QStringLiteral(""), QStringLiteral("用户不能为空"), 0);
- 		return;
- 	}
+	if (user.isEmpty() || session.isEmpty() || -1 != ui.tabWidget_dataInput->GetIndexFromTabText(user))
+	{
+		QMessageBox::information(this, QStringLiteral(""), QStringLiteral("用户不能为空"), 0);
+		return;
+	}
 	QLabel *labelname = new QLabel(user, this);
 	QLabel *labelnum = new QLabel(QStringLiteral("0"), this);
 	QFont ft;
@@ -176,6 +174,14 @@ void wx::on_addUser()
 		QTabWidget *tabWidget = view_port_->ui.tabWidget;
 		tabWidget->insertTab(tabWidget->count(), new QGuiCharts(user), user);
 	}
+}
+
+void wx::on_addUser()
+{
+	QString user = ui.lineEdit_setuser->text();
+	QString session = QwxSetting::ins()->session_;
+	QString date = QwxSetting::ins()->date_;
+	addUser(user, session, date);
 }
 
 void wx::UpdateDailiJishu()
@@ -405,4 +411,59 @@ void wx::RevocationLogTableWidgetItem()
 // 	UpdateLogTableWidget();
 
 	
+}
+
+void wx::on_loadChangDi()
+{
+	QString app_path = QApplication::applicationDirPath();
+	QString dir_path = app_path + QStringLiteral("/场地代理系数");
+	if (!QDir(dir_path).exists())
+		dir_path = app_path;
+	QString fileName = QFileDialog::getOpenFileName(this, QStringLiteral("Open File"), dir_path, QStringLiteral("ini (*.ini)"));
+	if (fileName.isEmpty())
+	{
+		return;
+	}
+
+	QString localname = QFileInfo(fileName).baseName();
+
+	QFile f;
+	f.setFileName(fileName);
+	if (f.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
+		QTextStream txtInput(&f);
+		txtInput.setCodec("UTF-8"); //请注意这行
+		QString lineStr;
+		QwxSetting *setting = QwxSetting::ins();
+		setting->title_ = localname;
+
+		QMap<QString, double> agencyProfit;
+		while (!txtInput.atEnd())
+		{
+			lineStr = txtInput.readLine();
+
+			QSet<QString> split_set;
+			QStringList str_list = lineStr.split(QStringLiteral("="));
+			if (str_list.size() == 2)
+			{
+				QString username = str_list[0];
+				agencyProfit[username] = str_list[1].toDouble();
+
+				if (username != QStringLiteral("默认"))
+					addUser(username, setting->session_, setting->date_);
+			}
+		}
+		setting->SetAgencyProfitMap(agencyProfit);
+		f.close();
+	}
+	else
+	{
+		QMessageBox::warning(nullptr, QStringLiteral("错误"), fileName + QStringLiteral("打开失败!"));
+		return;
+	}
+
+	ui.label_3->setEnabled(true);
+	ui.lineEdit_setuser->setEnabled(true);
+	ui.pushButton_setuserapply->setEnabled(true);
+	UpdateTitle();
 }

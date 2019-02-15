@@ -156,7 +156,6 @@ int main(int argc, char *argv[])
 		if (wx_setting->ReadIni())
 		{
 			wx_setting->date_ = login.date_;
-			wx_setting->title_ = login.title_;
 			wx_setting->session_ = login.session_;
 			wx w;
 			w.show();

@@ -115,7 +115,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DayTotolTable.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_DayTotolTable.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_DayTotolTable.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_QDayView.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="QDayView.cpp" />

@@ -23,8 +23,19 @@ QWxLogin::QWxLogin(QWidget *parent)
 	CommonHelper::setStyle(this, QApplication::applicationDirPath() + QStringLiteral("/viewport.qss"));
 	ui.dateEdit_setdate->setDate(QDate::currentDate());
 
+	
 	//³¡´Î¿Ø¼þ
 	ui.lineEdit_setsession->setValidator(new QIntValidator(0, 100, this));
+
+	QTime cur = QTime::currentTime();
+	if (cur > QTime(10, 40, 0) && cur < QTime(16, 40, 0))
+		ui.lineEdit_setsession->setText(QStringLiteral("1"));
+	else if (cur > QTime(16, 40, 0) && cur < QTime(23, 40, 0))
+		ui.lineEdit_setsession->setText(QStringLiteral("2"));
+	else if (cur > QTime(23, 40, 0) || cur < QTime(10, 40, 0))
+		ui.lineEdit_setsession->setText(QStringLiteral("3"));
+	else
+		ui.lineEdit_setsession->setText(QStringLiteral(""));
 }
 
 QWxLogin::~QWxLogin()
@@ -37,10 +48,9 @@ void QWxLogin::accept()
 	date_ = date_ + QString::number(ui.dateEdit_setdate->date().month()) + QStringLiteral("-");
 	date_ = date_ + QString::number(ui.dateEdit_setdate->date().day()) ;
 
-	title_ = ui.lineEdit_settitle->text();
 	session_ = ui.lineEdit_setsession->text();
 
-	if (!title_.isEmpty() && !session_.isEmpty())
+	if (!session_.isEmpty())
 	{
 		QDialog::accept();
 	}

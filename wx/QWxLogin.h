@@ -13,7 +13,6 @@ public:
 
 	QString session_;
 	QString date_;
-	QString title_;
 
 public slots:
 void accept();

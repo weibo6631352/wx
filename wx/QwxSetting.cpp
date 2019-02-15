@@ -138,31 +138,31 @@ bool QwxSetting::ReadIni(QString path /*= QString()*/)
 	}
 		
 
-	// 代理系数
-	f.setFileName(app_path + QStringLiteral("/agencyProfit.ini"));
-	if (f.open(QIODevice::ReadOnly | QIODevice::Text))
-	{
-		QTextStream txtInput(&f);
-		txtInput.setCodec("UTF-8"); //请注意这行
-
-		while (!txtInput.atEnd())
-		{
-			lineStr = txtInput.readLine();
-
-			QSet<QString> split_set;
-			QStringList str_list = lineStr.split(QStringLiteral("="));
-			if (str_list.size() == 2)
-			{
-				agencyProfit_[str_list[0]] = str_list[1].toDouble();
-			}
-		}
-		f.close();
-	}
-	else
-	{
-		QMessageBox::warning(nullptr, QStringLiteral("警告"), QStringLiteral("agencyProfit.ini打开失败!"));
-		return false;
-	}
+	//// 代理系数
+	//f.setFileName(app_path + QStringLiteral("/agencyProfit.ini"));
+	//if (f.open(QIODevice::ReadOnly | QIODevice::Text))
+	//{
+	//	QTextStream txtInput(&f);
+	//	txtInput.setCodec("UTF-8"); //请注意这行
+	//
+	//	while (!txtInput.atEnd())
+	//	{
+	//		lineStr = txtInput.readLine();
+	//
+	//		QSet<QString> split_set;
+	//		QStringList str_list = lineStr.split(QStringLiteral("="));
+	//		if (str_list.size() == 2)
+	//		{
+	//			agencyProfit_[str_list[0]] = str_list[1].toDouble();
+	//		}
+	//	}
+	//	f.close();
+	//}
+	//else
+	//{
+	//	QMessageBox::warning(nullptr, QStringLiteral("警告"), QStringLiteral("agencyProfit.ini打开失败!"));
+	//	return false;
+	//}
 
 	// 合计字典
 	f.setFileName(app_path + QStringLiteral("/合计字典.ini"));
@@ -237,6 +237,11 @@ const std::set<QString, strLenComp>& QwxSetting::GetReplaceSpaceSet()
 const QMap<QString, double>& QwxSetting::GetAgencyProfitMap()
 {
 	return agencyProfit_;
+}
+
+void QwxSetting::SetAgencyProfitMap(QMap<QString, double>& agencyProfit)
+{
+	agencyProfit_ = agencyProfit;
 }
 
 const QMap<QString, double>& QwxSetting::GetGoodsProfitMap()

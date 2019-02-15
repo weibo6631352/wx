@@ -25,9 +25,10 @@ public:
 	void UpdateLogTableWidget();
 	void UpdateDailiJishu();
 
+	void addUser(QString user, QString session, QString date);
 protected:
 	void InitStyle();
-	void InitUi();
+	void UpdateTitle();
 
 	// ÷ÿ‘ÿqwidget ¬º˛
 	void keyPressEvent(QKeyEvent *) override;
@@ -45,6 +46,7 @@ void on_tabinputtextEdit();
 
 void RevocationLogTableWidgetItem();
 	
+void on_loadChangDi();
 
 private:
 	Ui::wxClass ui;
