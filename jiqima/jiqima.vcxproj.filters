@@ -28,6 +28,9 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{1582f7fa-06b5-4800-aa43-64def3f19d9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -36,20 +39,26 @@
     <ClCompile Include="jiqima.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="jiqima.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="jiqima.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
+    <ClCompile Include="GeneratedFiles\Release\moc_jiqima.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="jiqima.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="jiqima.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="jiqima.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_jiqima.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

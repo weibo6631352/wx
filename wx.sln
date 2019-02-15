@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jiqima", "jiqima\jiqima.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shouquan", "shouquan\shouquan.vcxproj", "{5F5E92E5-FA7C-424C-AA28-CABB588D1AE2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MessagesBrowse", "MessagesBrowse\MessagesBrowse.vcxproj", "{77D36845-958D-4E5D-A02C-509BDB5F519A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -63,6 +65,12 @@ Global
 		{5F5E92E5-FA7C-424C-AA28-CABB588D1AE2}.Release|x64.ActiveCfg = Release|x64
 		{5F5E92E5-FA7C-424C-AA28-CABB588D1AE2}.Release|x64.Build.0 = Release|x64
 		{5F5E92E5-FA7C-424C-AA28-CABB588D1AE2}.Release|x86.ActiveCfg = Release|x64
+		{77D36845-958D-4E5D-A02C-509BDB5F519A}.Debug|x64.ActiveCfg = Debug|x64
+		{77D36845-958D-4E5D-A02C-509BDB5F519A}.Debug|x64.Build.0 = Debug|x64
+		{77D36845-958D-4E5D-A02C-509BDB5F519A}.Debug|x86.ActiveCfg = Debug|x64
+		{77D36845-958D-4E5D-A02C-509BDB5F519A}.Release|x64.ActiveCfg = Release|x64
+		{77D36845-958D-4E5D-A02C-509BDB5F519A}.Release|x64.Build.0 = Release|x64
+		{77D36845-958D-4E5D-A02C-509BDB5F519A}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

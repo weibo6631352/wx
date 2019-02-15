@@ -28,43 +28,75 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{0d5a7d95-4ab4-4969-a541-6c52eeffe3ce}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{318a1953-8685-487c-afff-e4e3a38f91aa}</UniqueIdentifier>
+      <UniqueIdentifier>{ad9848d3-0f41-4a68-b944-232b70607120}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="shouquan.cpp">
+    <ClCompile Include="MessagesBrowse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SHA1.cpp">
+    <ClCompile Include="Login.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_shouquan.cpp">
-      <Filter>Generated Files\Release</Filter>
+    <ClCompile Include="HttpInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Login.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MessagesBrowse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_MessagesBrowse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Login.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MessagesBrowse.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="shouquan.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="SHA1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_shouquan.h">
+    <ClInclude Include="GeneratedFiles\ui_MessagesBrowse.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="mbdef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_Login.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="shouquan.ui">
+    <CustomBuild Include="MessagesBrowse.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="MessagesBrowse.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="shouquan.h">
+    <CustomBuild Include="Login.h">
       <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="MessagesBrowse.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Login.ui">
+      <Filter>Form Files</Filter>
     </CustomBuild>
   </ItemGroup>
 </Project>

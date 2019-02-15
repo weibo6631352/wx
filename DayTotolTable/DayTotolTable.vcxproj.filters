@@ -28,6 +28,9 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{c520f1e6-4833-4e07-8b84-2c171cd3cf87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,26 +42,38 @@
     <ClCompile Include="QDayView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="DayTotolTable.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="QDayView.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="DayTotolTable.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="QDayView.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
+    <ClCompile Include="GeneratedFiles\Release\moc_DayTotolTable.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_QDayView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="DayTotolTable.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="DayTotolTable.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QDayView.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DayTotolTable.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="QDayView.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_DayTotolTable.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_QDayView.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

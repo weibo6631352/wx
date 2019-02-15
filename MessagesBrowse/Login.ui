@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Login</class>
+ <widget class="QDialog" name="Login">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>278</width>
+    <height>321</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>登录</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>请扫码：</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_qr">
+     <property name="minimumSize">
+      <size>
+       <width>256</width>
+       <height>256</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>256</width>
+       <height>256</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="pushButton">
+     <property name="text">
+      <string>确认</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Login</receiver>
+   <slot>Verify()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>88</x>
+     <y>303</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>396</x>
+     <y>300</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>Verify()</slot>
+ </slots>
+</ui>
