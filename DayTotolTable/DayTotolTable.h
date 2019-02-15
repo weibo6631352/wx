@@ -15,7 +15,12 @@ public:
 	virtual void paintEvent(QPaintEvent *event) override;
 
 
-    bool getUserSetting(QString file_path, QMap<QString, QMap<QString, QMap<QString, DataInfo>>> &locals_info, QMap<QString, QVector<QString>> &kaibao_result, QMap<QString, QMap<QString, QMap<QString, double>>> &daili_session_profit, QMap<QString, double> &good_Profit, QString &date);
+    bool getUserSetting(QString file_path, QMap<QString, 
+		QMap<QString, QMap<QString, DataInfo>>> &locals_info, 
+		QMap<QString, QVector<QString>> &kaibao_result, 
+		QMap<QString, QMap<QString, QMap<QString, double>>> &daili_session_profit,
+		QMap<QString, double> &good_Profit,
+		QString &date);
     void totol();
 	public slots:
 	void on_change_date();
@@ -29,7 +34,7 @@ private:
 	// 场地 代理 场次
 	QMap<QString, QMap<QString, QMap<QString, DataInfo>>> locals_info;
 	QMap<QString, QVector<QString>> kaibao_result;
-	QMap<QString, double> daili_profit;
+	//QMap<QString, double> daili_profit;
 	QMap<QString, QMap<QString, QMap<QString, double>>> daili_session_profit;
 	QMap<QString, double> good_Profit;
 	QString date;
