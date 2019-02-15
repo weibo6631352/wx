@@ -130,6 +130,7 @@ bool winlessCmpare(goods_info& p1, goods_info  &p2)
 // °´ÊäÓ®Ô¤²âÅÅÐò
 void QGuiCharts::UpdateCharts()
 {
+	
 	QString pregoods = QwxSetting::ins()->GetPreGoods();
 	QGoodsData *data;
 	const QVector<QString> good_set = QwxSetting::ins()->GetGoodsSet();
@@ -140,6 +141,7 @@ void QGuiCharts::UpdateCharts()
 
 	if (user_ == QStringLiteral("×Ü¼Æ"))
 	{
+		ui.label_title->setText(QwxSetting::ins()->title_ + QStringLiteral("£¨") + user_ + QStringLiteral("£©"));
 		if (!QwxData::ins()->GetUserCount())
 		{
 			return;

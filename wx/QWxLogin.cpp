@@ -27,15 +27,15 @@ QWxLogin::QWxLogin(QWidget *parent)
 	//³¡´Î¿Ø¼þ
 	ui.lineEdit_setsession->setValidator(new QIntValidator(0, 100, this));
 
-	QTime cur = QTime::currentTime();
-	if (cur > QTime(10, 40, 0) && cur < QTime(16, 40, 0))
-		ui.lineEdit_setsession->setText(QStringLiteral("1"));
-	else if (cur > QTime(16, 40, 0) && cur < QTime(23, 40, 0))
-		ui.lineEdit_setsession->setText(QStringLiteral("2"));
-	else if (cur > QTime(23, 40, 0) || cur < QTime(10, 40, 0))
-		ui.lineEdit_setsession->setText(QStringLiteral("3"));
-	else
-		ui.lineEdit_setsession->setText(QStringLiteral(""));
+	//QTime cur = QTime::currentTime();
+	//if (cur > QTime(10, 40, 0) && cur < QTime(16, 40, 0))
+	//	ui.lineEdit_setsession->setText(QStringLiteral("1"));
+	//else if (cur > QTime(16, 40, 0) && cur < QTime(23, 40, 0))
+	//	ui.lineEdit_setsession->setText(QStringLiteral("2"));
+	//else if (cur > QTime(23, 40, 0) || cur < QTime(10, 40, 0))
+	//	ui.lineEdit_setsession->setText(QStringLiteral("3"));
+	//else
+	//	ui.lineEdit_setsession->setText(QStringLiteral(""));
 }
 
 QWxLogin::~QWxLogin()
