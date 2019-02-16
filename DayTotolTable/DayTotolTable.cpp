@@ -261,6 +261,8 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
  
  			int cur_year = 0;
  			int cur_month = 0;
+			
+			QString pre_line_str;
  			while (!txtInput.atEnd())
  			{
  				lineStr = txtInput.readLine();
@@ -271,7 +273,8 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
  					continue;
  				}
 
- 				else if (-1 != lineStr.indexOf(QStringLiteral("年")))
+				
+ 				if (-1 != lineStr.indexOf(QStringLiteral("年")))
  				{
  					cur_year = lineStr.split(QStringLiteral("年"))[0].toInt();
  				}
@@ -293,6 +296,14 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
 							goods_v.push_back(good_list[j]);
 						}
 						kaibao_result[QStringLiteral("开宝结果")] = goods_v;
+
+						QStringList pre_line_str_split_list = pre_line_str.split(QStringLiteral("号"));
+						if (pre_line_str_split_list.size() == 2)
+						{
+							QStringList pre_session_good_list =  pre_line_str.split(QStringLiteral("号"))[1].split(QStringLiteral(","));
+							pre_date_last_session = pre_session_good_list[pre_session_good_list.size()-1];
+						}
+						
 						break;
 					}
  				}
@@ -302,6 +313,7 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
  					f.close();
  					return false;
  				}
+				pre_line_str = lineStr;
  			}
  			f.close();
  		}
@@ -351,14 +363,28 @@ void DayTotolTable::totol()
     changdi_tab_widget->setAttribute(Qt::WA_DeleteOnClose);
     changdi_tab_widget->setWindowTitle(QStringLiteral("日结报表——点击代理标签完成即可截图"));
     changdi_tab_widget->resize(QSize(785,390));
+
+	std::map<QString, QLabel *> changdi_session_shows;
+	std::map<QString, std::vector<int>> changdi_session_totol;
 	for (auto local_it = locals_info.begin(); local_it != locals_info.end(); ++local_it)
 	{
         QString local_name = local_it.key();  // 场地名
-        QTabWidget *daili_tab_widget = new QTabWidget(changdi_tab_widget);
+		changdi_session_totol[local_name] = std::vector<int>(3);
+
+		QWidget *changdi_widget = new QWidget(changdi_tab_widget);
+		QVBoxLayout *changdi_layout = new QVBoxLayout(changdi_widget);
+		changdi_layout->setContentsMargins(0, 0, 0, 0);
+		changdi_layout->setSpacing(0);
+		changdi_widget->setLayout(changdi_layout);
+		QLabel *changdi_session_show = new QLabel(changdi_widget);
+		changdi_session_shows[local_name] = changdi_session_show;
+        QTabWidget *daili_tab_widget = new QTabWidget(changdi_widget);
         connect(daili_tab_widget, &QTabWidget::tabBarClicked, [=](int index){
             ((QDayView *)daili_tab_widget->widget(index))->ScreenShot();
         });
-        changdi_tab_widget->addTab(daili_tab_widget, local_name);
+		changdi_layout->addWidget(changdi_session_show);
+		changdi_layout->addWidget(daili_tab_widget);
+        changdi_tab_widget->addTab(changdi_widget, local_name);
 
         // 遍历代理
 		for (auto daili_it = local_it.value().begin(); daili_it != local_it.value().end(); ++daili_it)
@@ -433,15 +459,15 @@ void DayTotolTable::totol()
 			changci->setTextAlignment(Qt::AlignCenter);
 			QTableWidgetItem *kaibao = new QTableWidgetItem(QStringLiteral("开宝"));
 			kaibao->setTextAlignment(Qt::AlignCenter);
-			QTableWidgetItem *zongyazhue = new QTableWidgetItem(QStringLiteral("总押注额"));
+			QTableWidgetItem *zongyazhue = new QTableWidgetItem(QStringLiteral("总额"));
 			zongyazhue->setTextAlignment(Qt::AlignCenter);
-			QTableWidgetItem *dailifei = new QTableWidgetItem(QStringLiteral("代理费"));
+			QTableWidgetItem *dailifei = new QTableWidgetItem(QStringLiteral("代理"));
 			dailifei->setTextAlignment(Qt::AlignCenter);
-			QTableWidgetItem *zhongbaoyazhu = new QTableWidgetItem(QStringLiteral("中宝押注"));
+			QTableWidgetItem *zhongbaoyazhu = new QTableWidgetItem(QStringLiteral("中宝"));
 			zhongbaoyazhu->setTextAlignment(Qt::AlignCenter);
-			QTableWidgetItem *zhongbaoxuyaopeideqian = new QTableWidgetItem(QStringLiteral("中宝赔钱"));
+			QTableWidgetItem *zhongbaoxuyaopeideqian = new QTableWidgetItem(QStringLiteral("中奖兑付"));
 			zhongbaoxuyaopeideqian->setTextAlignment(Qt::AlignCenter);
-			QTableWidgetItem *heji = new QTableWidgetItem(QStringLiteral("合计"));
+			QTableWidgetItem *heji = new QTableWidgetItem(QStringLiteral("盈亏结果"));
 			heji->setTextAlignment(Qt::AlignCenter);
 			tabel->setItem(2, 0, changci);
 			tabel->setItem(2, 1, kaibao);
@@ -490,8 +516,14 @@ void DayTotolTable::totol()
 						+ session_str + QStringLiteral("未设置开宝物品");
 					continue;
 				}
+
 				session_size++;
 				QString kaibao_str = kaibao_result[QStringLiteral("开宝结果")][session_int - 1];
+				QString pre_kaibaojieguo;
+				if (1 == session_int)
+					pre_kaibaojieguo = pre_date_last_session;
+				else
+					pre_kaibaojieguo = kaibao_result[QStringLiteral("开宝结果")][session_int - 2];
 
 				std::map<QString, int>& data = locals_info[local_name][daili_name][session_str].data;
 				int yazhuzonge_int = 0;
@@ -521,16 +553,28 @@ void DayTotolTable::totol()
 				}
 
                 
-				int dailifei_int = yazhuzonge_int*dailifit_session / 100.0;
+				int dailifei_int = yazhuzonge_int*dailifit_session / 100.0 + 0.5;
 				QString zongyazhue_str = QString::number(yazhuzonge_int);
-				int zhongbaoxuyaopeideqian_int = data[kaibao_str] * good_Profit[kaibao_str];
+
+
+				double session_goods_fit = good_Profit[kaibao_str];
+				if (ui.checkBox_chongbao->isChecked() && pre_kaibaojieguo == kaibao_str)
+					session_goods_fit = 90;
+
+				int zhongbaoxuyaopeideqian_int = data[kaibao_str] * session_goods_fit;
 
 				tabel->item(row, 1)->setText(kaibao_str);
 				tabel->item(row, 2)->setText(zongyazhue_str);
 				tabel->item(row, 3)->setText(QString::number(dailifei_int));
 				tabel->item(row, 4)->setText(QString::number(data[kaibao_str]));
 				tabel->item(row, 5)->setText(QString::number(zhongbaoxuyaopeideqian_int));
-				tabel->item(row, 6)->setText(QString::number(yazhuzonge_int - dailifei_int - zhongbaoxuyaopeideqian_int));
+
+				int yingkuijieguo = yazhuzonge_int - dailifei_int - zhongbaoxuyaopeideqian_int;
+				tabel->item(row, 6)->setText(QString::number(yingkuijieguo));
+				if (yingkuijieguo < 0)
+					tabel->item(row, 6)->setForeground(QColor(Qt::red));
+
+				changdi_session_totol[local_name][session_int - 1] += yingkuijieguo;
 			}
             dailiren_value->setText(local_name + "-" + daili_name + "-" + QString::number(dailifit_session) + "%");
 			int yazhuzonge_int = tabel->item(3, 2)->text().toInt() + tabel->item(4, 2)->text().toInt() + tabel->item(5, 2)->text().toInt();
@@ -600,6 +644,18 @@ void DayTotolTable::totol()
 			
 		}
 	}
+
+	for (auto iter = changdi_session_totol.begin(); iter != changdi_session_totol.end(); ++iter)
+	{
+		QString changdiname = iter->first;
+		std::vector<int> sanchang = iter->second;
+		QLabel *changdi_show = changdi_session_shows[changdiname];
+		QString show_str = QStringLiteral("第一场：") + QString::number(sanchang[0])
+			+ QStringLiteral("\t第二场：") + QString::number(sanchang[1])
+			+ QStringLiteral("\t第三场：") + QString::number(sanchang[2]);
+		changdi_show->setText(show_str);
+	}
+
     changdi_tab_widget->show();
 	log += QStringLiteral("\n") + date  + QStringLiteral("统计完成！");
 	ui.label->setText(log);

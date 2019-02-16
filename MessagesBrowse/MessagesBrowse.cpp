@@ -70,8 +70,8 @@ QString MessagesBrowse::fromatChatContent(QString &chats)
 {
 	QString res;
 
-	QStringList lines = chats.split(QStringLiteral("\n"));
-	for (int i = 0; i < lines.size(); ++i)
+	QStringList lines = chats.split(QStringLiteral("%%%\n"));
+	for (int i = lines.size() -1; i >=0; --i)
 	{
 		QString line = lines[i];
 		if (line.isEmpty())
@@ -79,7 +79,7 @@ QString MessagesBrowse::fromatChatContent(QString &chats)
 		QStringList field_list = line.split(QStringLiteral("\t$$$"));
 		QString head_str = QStringLiteral("<font color=blue>") + field_list[2] + QDateTime::fromTime_t(field_list[4].toInt()).time().toString("hh:mm:ss")
 			+ QStringLiteral("</font><br>");
-		QString body_str = field_list[3] + QStringLiteral("<br>");
+		QString body_str = field_list[3].replace(QStringLiteral("\n"), QStringLiteral("<br>")) + QStringLiteral("<br>");
 
 		res += (head_str + body_str);
 	}

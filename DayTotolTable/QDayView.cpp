@@ -33,22 +33,22 @@ QDayView::QDayView(QWidget *parent)
 
 void QDayView::ScreenShot()
 {
-    QPropertyAnimation *pAnimation = new QPropertyAnimation(this, "pos");
-    int x = geometry().x();
-    int y = geometry().y();
-    pAnimation->setDuration(200);
-    pAnimation->setKeyValueAt(0, QPoint(x - 1, y - 1));
-	pAnimation->setKeyValueAt(0.1, QPoint(x + 2, y + 2));
-	pAnimation->setKeyValueAt(0.2, QPoint(x - 2, y + 2));
-	pAnimation->setKeyValueAt(0.3, QPoint(x + 2, y - 2));
-	pAnimation->setKeyValueAt(0.4, QPoint(x - 2, y - 2));
-	pAnimation->setKeyValueAt(0.5, QPoint(x + 2, y + 2));
-	pAnimation->setKeyValueAt(0.6, QPoint(x - 2, y + 2));
-	pAnimation->setKeyValueAt(0.7, QPoint(x + 2, y - 2));
-	pAnimation->setKeyValueAt(0.8, QPoint(x - 2, y - 2));
-	pAnimation->setKeyValueAt(0.9, QPoint(x + 2, y + 2));
-    pAnimation->setKeyValueAt(1, QPoint(x - 1, y - 1));
-    pAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+	QPropertyAnimation *pAnimation = new QPropertyAnimation(this, "pos");
+	int x = geometry().x();
+	int y = geometry().y();
+	pAnimation->setDuration(100);
+	pAnimation->setKeyValueAt(0, QPoint(x - 0, y - 0));
+	pAnimation->setKeyValueAt(0.1, QPoint(x + 1, y + 1));
+	pAnimation->setKeyValueAt(0.2, QPoint(x - 1, y + 1));
+	pAnimation->setKeyValueAt(0.3, QPoint(x + 1, y - 1));
+	pAnimation->setKeyValueAt(0.4, QPoint(x - 1, y - 1));
+	pAnimation->setKeyValueAt(0.5, QPoint(x + 1, y + 1));
+	pAnimation->setKeyValueAt(0.6, QPoint(x - 1, y + 1));
+	pAnimation->setKeyValueAt(0.7, QPoint(x + 1, y - 1));
+	pAnimation->setKeyValueAt(0.8, QPoint(x - 1, y - 1));
+	pAnimation->setKeyValueAt(0.9, QPoint(x + 1, y + 1));
+	pAnimation->setKeyValueAt(1, QPoint(x - 0, y - 0));
+	pAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 
     QPixmap pix = QPixmap::grabWidget(this);
     QApplication::clipboard()->setPixmap(pix);

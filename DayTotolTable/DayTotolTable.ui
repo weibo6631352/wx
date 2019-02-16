@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>557</width>
-    <height>96</height>
+    <height>104</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,6 +34,26 @@
       <widget class="QLineEdit" name="lineEdit_gongsiming">
        <property name="text">
         <string>邦伞</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBox_chongbao">
+       <property name="text">
+        <string>开启重宝90倍</string>
        </property>
       </widget>
      </item>
@@ -91,11 +111,11 @@
    <slot>on_change_date()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>497</x>
-     <y>31</y>
+     <x>546</x>
+     <y>73</y>
     </hint>
     <hint type="destinationlabel">
-     <x>605</x>
+     <x>556</x>
      <y>21</y>
     </hint>
    </hints>

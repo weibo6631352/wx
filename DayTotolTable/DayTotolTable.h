@@ -39,4 +39,5 @@ private:
 	QMap<QString, double> good_Profit;
 	QString date;
 	QString dir_path;
+	QString pre_date_last_session;
 };
