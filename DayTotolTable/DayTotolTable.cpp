@@ -169,6 +169,18 @@ bool DayTotolTable::getUserSetting(QString file_path, QMap<QString, QMap<QString
 	{
 		QString fileName = dir_path + QStringLiteral("/") + files[i];
 		QString localname = QFileInfo(fileName).baseName();
+		QStringList localname_fromat_list = localname.split(QStringLiteral("&&"));
+		if (localname_fromat_list.size() == 2)
+			localname = localname_fromat_list[1];
+		else
+			localname = localname_fromat_list[0];
+		
+		if (daili_session_profit.find(localname) != daili_session_profit.end())
+		{
+			QMessageBox::information(this, localname + QStringLiteral("加载失败"), QStringLiteral("有两个相同的")+ localname+ QStringLiteral("配置，冲突了！"), 0);
+			return false;
+		}
+
 		QFile f;
 		f.setFileName(fileName);
 		if (f.open(QIODevice::ReadOnly | QIODevice::Text))

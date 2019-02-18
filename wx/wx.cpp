@@ -425,8 +425,13 @@ void wx::on_loadChangDi()
 		return;
 	}
 
+	
 	QString localname = QFileInfo(fileName).baseName();
-
+	QStringList localname_fromat_list = localname.split(QStringLiteral("&&"));
+	if (localname_fromat_list.size() == 2)
+		localname = localname_fromat_list[1];
+	else
+		localname = localname_fromat_list[0];
 	QFile f;
 	f.setFileName(fileName);
 	if (f.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -435,6 +440,7 @@ void wx::on_loadChangDi()
 		txtInput.setCodec("UTF-8"); //请注意这行
 		QString lineStr;
 		QwxSetting *setting = QwxSetting::ins();
+
 		setting->title_ = localname;
 
 		//QMap<QString, double> agencyProfit;
@@ -459,7 +465,7 @@ void wx::on_loadChangDi()
 	}
 	else
 	{
-		QMessageBox::warning(nullptr, QStringLiteral("错误"), fileName + QStringLiteral("打开失败!"));
+		QMessageBox::warning(nullptr, QStringLiteral("错误"), fileName + QStringLiteral("文件打开失败，或者文件格式不是!"));
 		return;
 	}
 
