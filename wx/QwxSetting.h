@@ -36,6 +36,7 @@ public:
 	const std::set<QString, strLenComp>& GetReplaceSpaceSet();
 	const QMap<QString, double>& GetAgencyProfitMap();
 	void SetAgencyProfitMap(QMap<QString, double>& agencyProfit);
+	void SetAgencyProfit(QString user, double profit);
 	const QMap<QString, double>& GetGoodsProfitMap();
 	const QString GetPreGoods();
 	const std::set <QString, strLenComp>& GetTotolDict();

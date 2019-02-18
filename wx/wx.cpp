@@ -437,7 +437,7 @@ void wx::on_loadChangDi()
 		QwxSetting *setting = QwxSetting::ins();
 		setting->title_ = localname;
 
-		QMap<QString, double> agencyProfit;
+		//QMap<QString, double> agencyProfit;
 		while (!txtInput.atEnd())
 		{
 			lineStr = txtInput.readLine();
@@ -447,13 +447,14 @@ void wx::on_loadChangDi()
 			if (str_list.size() == 2)
 			{
 				QString username = str_list[0];
-				agencyProfit[username] = str_list[1].toDouble();
+				//agencyProfit[username] = str_list[1].toDouble();
+				setting->SetAgencyProfit(username, str_list[1].toDouble());
 
 				if (username != QStringLiteral("д╛хо"))
 					addUser(username, setting->session_, setting->date_);
 			}
 		}
-		setting->SetAgencyProfitMap(agencyProfit);
+		
 		f.close();
 	}
 	else

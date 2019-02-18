@@ -365,11 +365,11 @@ void DayTotolTable::totol()
     changdi_tab_widget->resize(QSize(785,390));
 
 	std::map<QString, QLabel *> changdi_session_shows;
-	std::map<QString, std::vector<int>> changdi_session_totol;
+	std::map<QString, std::vector<std::pair<int, int>>> changdi_session_totol;
 	for (auto local_it = locals_info.begin(); local_it != locals_info.end(); ++local_it)
 	{
         QString local_name = local_it.key();  // 场地名
-		changdi_session_totol[local_name] = std::vector<int>(3);
+		changdi_session_totol[local_name] = std::vector<std::pair<int, int>>(3);
 
 		QWidget *changdi_widget = new QWidget(changdi_tab_widget);
 		QVBoxLayout *changdi_layout = new QVBoxLayout(changdi_widget);
@@ -553,7 +553,7 @@ void DayTotolTable::totol()
 				}
 
                 
-				int dailifei_int = yazhuzonge_int*dailifit_session / 100.0 + 0.5;
+				int dailifei_int = qRound(yazhuzonge_int*dailifit_session / 100.0);
 				QString zongyazhue_str = QString::number(yazhuzonge_int);
 
 
@@ -561,7 +561,7 @@ void DayTotolTable::totol()
 				if (ui.checkBox_chongbao->isChecked() && pre_kaibaojieguo == kaibao_str)
 					session_goods_fit = 90;
 
-				int zhongbaoxuyaopeideqian_int = data[kaibao_str] * session_goods_fit;
+				int zhongbaoxuyaopeideqian_int = qRound(data[kaibao_str] * session_goods_fit);
 
 				tabel->item(row, 1)->setText(kaibao_str);
 				tabel->item(row, 2)->setText(zongyazhue_str);
@@ -574,7 +574,8 @@ void DayTotolTable::totol()
 				if (yingkuijieguo < 0)
 					tabel->item(row, 6)->setForeground(QColor(Qt::red));
 
-				changdi_session_totol[local_name][session_int - 1] += yingkuijieguo;
+				changdi_session_totol[local_name][session_int - 1].first += yazhuzonge_int;
+				changdi_session_totol[local_name][session_int - 1].second += yingkuijieguo;
 			}
             dailiren_value->setText(local_name + "-" + daili_name + "-" + QString::number(dailifit_session) + "%");
 			int yazhuzonge_int = tabel->item(3, 2)->text().toInt() + tabel->item(4, 2)->text().toInt() + tabel->item(5, 2)->text().toInt();
@@ -605,7 +606,7 @@ void DayTotolTable::totol()
 				heji_totol = new QTableWidgetItem(/*QStringLiteral("上家需付代理") +*/ QString::number(-heji_totol_int));
 				heji_totol->setForeground(QColor(255, 0, 0));
 			}
-			QFont totol_font("Microsoft YaHei", 16, 30);
+			QFont totol_font("Microsoft YaHei", 17, 30);
 			totol_font.setUnderline(true);
 			totol_font.setBold(true);
 
@@ -648,11 +649,16 @@ void DayTotolTable::totol()
 	for (auto iter = changdi_session_totol.begin(); iter != changdi_session_totol.end(); ++iter)
 	{
 		QString changdiname = iter->first;
-		std::vector<int> sanchang = iter->second;
+		std::vector<std::pair<int, int>> &sanchang = iter->second;
 		QLabel *changdi_show = changdi_session_shows[changdiname];
-		QString show_str = QStringLiteral("第一场：") + QString::number(sanchang[0])
-			+ QStringLiteral("\t第二场：") + QString::number(sanchang[1])
-			+ QStringLiteral("\t第三场：") + QString::number(sanchang[2]);
+		QString show_str = QStringLiteral("盈亏合计：") 
+			+ QStringLiteral("第一场") + QString::number(sanchang[0].second)
+			+ QStringLiteral("\t第二场") + QString::number(sanchang[1].second)
+			+ QStringLiteral("\t第三场") + QString::number(sanchang[2].second)
+			+ QStringLiteral("\t\t总额合计：")
+			+ QStringLiteral("第一场") + QString::number(sanchang[0].first)
+			+ QStringLiteral("\t第二场") + QString::number(sanchang[1].first)
+			+ QStringLiteral("\t第三场") + QString::number(sanchang[2].first);
 		changdi_show->setText(show_str);
 	}
 

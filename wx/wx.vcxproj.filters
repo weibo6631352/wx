@@ -37,6 +37,9 @@
     <Filter Include="Header Files\UiWidget">
       <UniqueIdentifier>{72dbc07c-4a02-4601-a4ca-73373f94e513}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{587a0aed-c2a7-45aa-a849-4980781e7827}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -113,6 +116,39 @@
     </ClCompile>
     <ClCompile Include="SHA1.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QGoodsData.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QGuiCharts.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QGuiTabWidgetInputData.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QGuiViewport.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QGuiWxSetting.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QProgressWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QwxData.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QwxLog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QWxLogin.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_QwxSetting.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_wx.cpp">
+      <Filter>Generated Files\Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

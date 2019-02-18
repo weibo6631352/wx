@@ -244,6 +244,11 @@ void QwxSetting::SetAgencyProfitMap(QMap<QString, double>& agencyProfit)
 	agencyProfit_ = agencyProfit;
 }
 
+void QwxSetting::SetAgencyProfit(QString user, double profit)
+{
+	agencyProfit_[user] = profit;
+}
+
 const QMap<QString, double>& QwxSetting::GetGoodsProfitMap()
 {
 	return good_Profit_;

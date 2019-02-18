@@ -171,17 +171,16 @@ void QGuiCharts::UpdateCharts()
 		// 遇到总计
 		if (user_ == QStringLiteral("总计"))
 		{
-			double totle_fit = QwxSetting::ins()->GetAgencyProfitMap()[QStringLiteral("默认")];
 			QMap<QString, QGoodsData*> user_data = QwxData::ins()->user_data_;
 			for (auto it = user_data.begin(); it != user_data.end(); ++it)
 			{
 				QGoodsData *userdata = it.value();
-				winorlose_num += userdata->totols_*(1.0 - userdata->profit_*0.01) - userdata->goods_totols_[goods] * gfit + 0.9;
+				winorlose_num += qRound(userdata->totols_*(1.0 - userdata->profit_*0.01)) - qRound(userdata->goods_totols_[goods] * gfit);
 			}
 		}
 		else
 		{
-			winorlose_num = data->totols_*(1.0 - data->profit_*0.01) - goods_num * gfit + 0.9;
+			winorlose_num = qRound(data->totols_*(1.0 - data->profit_*0.01)) - qRound(goods_num * gfit );
 		}
 		sort_goods.push_back(goods_info(goods, goods_num, winorlose_num));
 	}
