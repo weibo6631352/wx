@@ -50,7 +50,7 @@ QString ExtractNum(QString &str)
 	int len = str.length();
 	for (int i = 0; i < len; i++)
 	{
-		if (str[i] >= '0' && str[i] <= '9')
+		if ((str[i] >= '0' && str[i] <= '9') || str[i] == '-' || str[i] == '+')
 			tmp.append(str[i]);
 	}
 	return tmp;
