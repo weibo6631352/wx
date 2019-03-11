@@ -60,7 +60,7 @@
            <string notr="true"/>
           </property>
           <property name="text">
-           <string>下注超过</string>
+           <string>超过</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -294,7 +294,7 @@ color: rgb(0, 0, 0);</string>
            <string notr="true"/>
           </property>
           <property name="text">
-           <string>输赢超过</string>
+           <string>超过</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
